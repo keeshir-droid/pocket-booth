@@ -20,7 +20,7 @@
   PB.STYLES = [
     { id: "classic", name: "Classic" },
     { id: "film", name: "Warm film" },
-    { id: "flash", name: "Flash night" },
+    { id: "flash", name: "Flash" },
     { id: "faded", name: "Faded" },
     { id: "fourcut", name: "Four-cut" },
     { id: "sepia", name: "Sepia 1950s" },

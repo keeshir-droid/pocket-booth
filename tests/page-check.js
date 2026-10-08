@@ -191,13 +191,13 @@ async function photos(b) {
   await b.shot("join-photos-result.png", { full: true });
   await after(b, "4 photos");
 
-  // 2 photos: "Pick two more"
+  // 2 photos: "Pick 2 more"
   await openUrl(b, "?develop=0");
   await b.waitFor("document.body.dataset.screen === 'landing'", 10);
   await b.setFiles("#fPick", pick(have.slice(4, 6)));
   report(await b.waitFor("window.__booth.screen === 'pick'", 20), "picking 2 photos shows the pick screen");
   const title = await b.eval("document.getElementById('pickTitle').textContent");
-  report(title === "Pick two more", 'the pick screen says "Pick two more"', title);
+  report(title === "Pick 2 more", 'the pick screen says "Pick 2 more"', title);
   report(await b.eval("document.querySelectorAll('#pickSlots .tile.full').length === 2 && document.querySelectorAll('#pickSlots .tile').length === 4"), "2 of the 4 slots are filled");
   await b.shot("join-photos-pick2.png");
   // add 2 more: the strip appears
@@ -283,7 +283,7 @@ async function result(b) {
   const before = await b.eval("window.__nb('#rStrip .sc')");
   await b.clickEl("#styleRow .chip[data-id='flash']");
   await sleep(900);
-  report(await b.eval("window.__booth.settings.style === 'flash' && window.__booth.strip.settings.style === 'flash' && document.querySelector('#styleRow .chip[data-id=flash]').getAttribute('aria-pressed') === 'true'"), "tapping Flash night changes the style (settings, strip, chip)");
+  report(await b.eval("window.__booth.settings.style === 'flash' && window.__booth.strip.settings.style === 'flash' && document.querySelector('#styleRow .chip[data-id=flash]').getAttribute('aria-pressed') === 'true'"), "tapping Flash changes the style (settings, strip, chip)");
   report((await b.eval("window.__nb('#rStrip .sc')")).ok, "the strip is repainted after a style change", JSON.stringify(await b.eval("window.__nb('#rStrip .sc')")));
   await b.clickEl("#paperRow .dot[data-id='pink']");
   await sleep(700);
@@ -309,7 +309,7 @@ async function result(b) {
   const rect = await b.eval("(function(){document.querySelector('#rStrip .sc').scrollIntoView({block:'center'});var r=document.querySelector('#rStrip .sc').getBoundingClientRect();return {l:r.left,t:r.top,w:r.width,h:r.height};})()");
   await b.click(rect.l + rect.w * 0.5, rect.t + rect.h * ((45 + 383 + 30 + 190) / 1800));
   report(await b.waitFor("window.__booth.screen === 'edit'", 5), "tapping a photo on the strip opens the frame editor");
-  report(await b.eval("document.getElementById('editTitle').textContent") === "Frame two of four", "the editor opens on the tapped photo (Frame two of four)", await b.eval("document.getElementById('editTitle').textContent"));
+  report(await b.eval("document.getElementById('editTitle').textContent") === "Frame 2 of 4", "the editor opens on the tapped photo (Frame 2 of 4)", await b.eval("document.getElementById('editTitle').textContent"));
   await sleep(500);
   report((await b.eval("window.__nb('#editCanvas')")).ok, "the editor shows the photo", JSON.stringify(await b.eval("window.__nb('#editCanvas')")));
   await b.shot("join-edit.png");
@@ -329,7 +329,7 @@ async function result(b) {
   await sleep(500);
   const idAfter = await b.eval("window.__booth.photos[1].id + ',' + window.__booth.photos[2].id");
   const parts = idBefore.split(","), after2 = idAfter.split(",");
-  report(parts[0] === after2[1] && parts[1] === after2[0] && (await b.eval("document.getElementById('editTitle').textContent")) === "Frame three of four", "Move down swaps the photo with the next one and follows it", idBefore + " -> " + idAfter);
+  report(parts[0] === after2[1] && parts[1] === after2[0] && (await b.eval("document.getElementById('editTitle').textContent")) === "Frame 3 of 4", "Move down swaps the photo with the next one and follows it", idBefore + " -> " + idAfter);
   await b.clickEl("#btnEditDone");
   report(await b.waitFor("window.__booth.screen === 'result' && window.__nb('#rStrip .sc').ok", 5), "Done returns to the result screen with the strip painted");
   await after(b, "result controls and editor");

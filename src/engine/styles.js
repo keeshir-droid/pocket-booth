@@ -99,7 +99,7 @@
     }
   }
 
-  // Flash night: direct flash. Centre +18% falling to the corners -25%, high contrast, crushed shadows,
+  // Flash: direct flash. Centre +18% falling to the corners -25%, high contrast, crushed shadows,
   // a little cool (R -4), saturation +5%.
   function shoulder(v) { return v <= 0.78 ? v : 0.78 + 0.22 * (1 - Math.exp(-(v - 0.78) / 0.22)); }
   let flashLut = null;
@@ -227,7 +227,7 @@
     classic:    { id: "classic",    name: "Classic",      paper: "#f7f5f0", radius: 0,  grain: 0.06, vignette: 0.15, mono: true,  grade: gradeClassic },
     film:       { id: "film",       name: "Warm film",    paper: "#f1e8d6", radius: 0,  grain: 0.05, vignette: 0.08, mono: false, grade: gradeFilm,
                   palette: { hue: -10, pull: 0.62, cap: 0.55, shadow: [0.022, 0.006, -0.012], high: [0.030, 0.016, -0.022] } },   // amber and cream
-    flash:      { id: "flash",      name: "Flash night",  paper: "#141414", radius: 0,  grain: 0.07, vignette: 0,    mono: false, grade: gradeFlash,
+    flash:      { id: "flash",      name: "Flash",        paper: "#141414", radius: 0,  grain: 0.07, vignette: 0,    mono: false, grade: gradeFlash,
                   palette: { hue: 0, pull: 0, cap: 0.62, shadow: [0, 0, 0.004], high: [0, 0, 0] } },                              // only tames extremes
     faded:      { id: "faded",      name: "Faded",        paper: "#efe2bf", radius: 4,  grain: 0.05, vignette: 0.05, mono: false, grade: gradeFaded, worn: true },
     fourcut:    { id: "fourcut",    name: "Four-cut",     paper: "#f6d6dc", radius: 18, grain: 0.03, vignette: 0,    mono: false, grade: gradeFourcut, bandTitle: "POCKET BOOTH",

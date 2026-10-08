@@ -48,9 +48,8 @@ function fillFooter() {
   function on(el, ev, fn, opt) { if (el) el.addEventListener(ev, fn, opt); }
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
-  // Shrikhand's digits are odd (its "4" looks like a small mark), so numbers in headings and big buttons are spelled out
-  var NUMW = ["zero", "one", "two", "three", "four"];
-  function word(n) { return NUMW[n] || String(n); }
+  // Caprasimo's numerals are lovely, so counts are plain digits ("Pick 2 more", "Frame 3 of 4")
+  function word(n) { return String(n); }
   function capital(s) { s = String(s || ""); return s.charAt(0).toUpperCase() + s.slice(1); }
   function shuffled(a) {
     var r = a.slice();
@@ -67,6 +66,8 @@ function fillFooter() {
   var LS_KEY = "pocketbooth.v1";
   var IN_APP = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger|Snapchat|TikTok|musical_ly|Twitter|Pinterest|GSA\/|; wv\)/i.test(navigator.userAgent || "");
   var MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  // the frame colour on each style chip's tiny strip swatch: a hint of the look
+  var STYLE_FRAME = { classic: "#5b5f66", film: "#b98457", flash: "#d8c6a2", faded: "#9fb5ae", fourcut: "#e48fa1", sepia: "#8a6240", disposable: "#e0843a" };
   var STYLE_PAPER = { classic: "#f7f5f0", film: "#f1e8d6", flash: "#141414", faded: "#efe2bf", fourcut: "#f6d6dc", sepia: "#efe6d2", disposable: "#f7f5f0" };
 
   // ---------- pose ideas: short, kind, funny dares (one per shot when the toggle is on) ----------
@@ -453,7 +454,7 @@ function fillFooter() {
     $("#helpDetail").textContent = n ? "Take it, then come back for the next one." : h.detail;
     fillSlots($("#camSlots"), S.cam);
     $("#oneBox").hidden = !n;
-    $("#btnCamTake .lbl").textContent = n ? "Take photo " + word(n + 1) : "Take four photos one at a time";
+    $("#btnCamTake .lbl").textContent = n ? "Take photo " + word(n + 1) : "Take 4 photos one at a time";
     $("#steps").hidden = !(!n && (IN_APP || h.code === "camera-unsupported"));
     $("#allow").hidden = !(!n && h.code === "camera-denied");
     $("#btnHelpRetry").hidden = !!n;
@@ -478,7 +479,7 @@ function fillFooter() {
   function openPicker() { var f = $("#fPick"); f.value = ""; f.click(); }
   function fillPick() {
     var n = S.pick.length, rem = PB.FRAMES - n;
-    $("#pickTitle").textContent = n ? "Pick " + word(rem) + " more" : "Pick four photos";
+    $("#pickTitle").textContent = n ? "Pick " + word(rem) + " more" : "Pick 4 photos";
     $("#pickNote").textContent = n ? "Four photos make one strip. Add " + word(rem) + " more and it appears." : "Four photos make one strip. They’ll go in the order you pick them.";
     fillSlots($("#pickSlots"), S.pick);
   }
@@ -508,8 +509,7 @@ function fillFooter() {
     PB.STYLES.forEach(function (st, i) {
       var b = document.createElement("button");
       b.type = "button"; b.className = "chip"; b.setAttribute("data-id", st.id); b.setAttribute("aria-pressed", "false");
-      b.style.setProperty("--r", (i % 2 ? 1.2 : -1.2) + "deg");
-      b.innerHTML = '<i style="--c:' + styleHex(st.id) + '"></i>' + footerEsc(st.name);
+      b.innerHTML = '<i style="--c:' + styleHex(st.id) + ';--f:' + (STYLE_FRAME[st.id] || "#777") + '" aria-hidden="true"></i>' + footerEsc(st.name);
       on(b, "click", function () { change({ style: st.id }); });
       row.appendChild(b);
     });
@@ -539,7 +539,7 @@ function fillFooter() {
     if (document.activeElement !== cap) cap.value = s.caption || "";
     $("#capCount").textContent = cap.value.length + "/24";
     $("#dateToggle").setAttribute("aria-checked", String(!!s.showDate));
-    var d = fmtDate(s.when); $("#dateText").textContent = d; $("#stampDate").textContent = d;
+    $("#dateText").textContent = fmtDate(s.when);
     var live = S.source === "live" || S.source === "fallback";
     $("#btnRetake").hidden = !live;
   }
@@ -825,7 +825,7 @@ function fillFooter() {
     if (!label) {
       if (kind === "camera") {
         label = "Use photos you already have"; act = function () { S.pick = []; openPicker(); };
-        label2 = "Take four photos one at a time"; act2 = function () { S.help = i; S.cam = []; fillHelp(); show("camera-help"); takeOne(); };
+        label2 = "Take 4 photos one at a time"; act2 = function () { S.help = i; S.cam = []; fillHelp(); show("camera-help"); takeOne(); };
       }
       else if (kind === "photo") { label = "Choose photos"; act = openPicker; }
       else if (kind === "out") { label = "Try again"; act = function () { show(S.strip ? "result" : "landing"); }; }
@@ -856,6 +856,10 @@ function fillFooter() {
     var fmt = Q.get("format") || "strip";
     document.body.classList.add("is-frame"); document.body.setAttribute("data-screen", "frame"); S.screen = "frame";
     sampleData().then(function (d) { return newStrip(d.photos, d.crops, "sample"); }).then(function () {
+      // the share images' mark uses Jost and Caveat: make sure both are in before drawing
+      if (!document.fonts || !document.fonts.load) return;
+      return Promise.all([document.fonts.load('600 32px "Jost"'), document.fonts.load('600 32px "Caveat"')]).catch(function () { /* fallbacks are fine */ });
+    }).then(function () {
       var cv = $("#frameCanvas"), x;
       if (fmt === "share" || fmt === "story") {
         cv.width = 1080; cv.height = fmt === "share" ? 1350 : 1920;

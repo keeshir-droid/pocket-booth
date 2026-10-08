@@ -6,16 +6,16 @@
   <title>Pocket Booth: a photo booth in your pocket</title>
   <meta name="description" content="Four shots, a countdown and a flash, and out slides a real photo booth strip. Or turn four photos you already have into one. Print four real-size strips on one page. Free, no account, and your photos never leave your phone.">
   <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#a8322d">
+  <meta name="theme-color" content="#8e1c1f">
   <meta property="og:title" content="Pocket Booth: a photo booth in your pocket">
   <meta property="og:description" content="Four shots. One strip. Print it for the price of a page. Free, and your photos never leave your phone.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://the-pocket-booth.vercel.app/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Pocket Booth: a photo booth in your pocket">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23a8322d'/%3E%3Crect x='10' y='3' width='12' height='26' rx='1.5' fill='%23f3e9d2' stroke='%232a1d17' stroke-width='1.4'/%3E%3Cg fill='%232a1d17'%3E%3Crect x='12' y='5.5' width='8' height='5.5'/%3E%3Crect x='12' y='12.5' width='8' height='5.5'/%3E%3Crect x='12' y='19.5' width='8' height='5.5'/%3E%3C/g%3E%3C/svg%3E">
-  <link rel="preload" href="fonts/shrikhand-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/courier-prime-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23d63d2e'/%3E%3Crect x='10' y='3' width='12' height='26' rx='1.5' fill='%23fffdf8' stroke='%2314213d' stroke-width='1.4'/%3E%3Cg fill='%2314213d'%3E%3Crect x='12' y='5.5' width='8' height='5.5'/%3E%3Crect x='12' y='12.5' width='8' height='5.5'/%3E%3Crect x='12' y='19.5' width='8' height='5.5'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/caprasimo-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/jost-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="src/styles.css">
   <!-- Vercel Web Analytics (page views). Same-origin once deployed; a harmless 404 until it is switched on in the Vercel dashboard. -->
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
@@ -29,63 +29,100 @@
     </div>
   </noscript>
 
-  <!-- Shared drawings: gradients, the curtain, sparkle, photo corner, a sample face. Everything is drawn here, no picture files. -->
+  <!-- Shared drawings: velvet, gold, the drape, sparkle, photo corner, a sample face. Everything is drawn here, no picture files. -->
   <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
-      <linearGradient id="g-cv" x1="0" x2="48.75" y1="0" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="repeat">
-        <stop offset="0" stop-color="#7d2420"/><stop offset=".24" stop-color="#b13a33"/><stop offset=".5" stop-color="#c64d42"/><stop offset=".78" stop-color="#a8322d"/><stop offset="1" stop-color="#7d2420"/>
+      <!-- velvet: dark at the outer edge, lit where the spotlight catches the inner edge -->
+      <linearGradient id="g-vel" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#5e1020"/><stop offset=".35" stop-color="#8e1c22"/><stop offset=".78" stop-color="#b8291f"/><stop offset="1" stop-color="#cf3a2c"/>
       </linearGradient>
-      <linearGradient id="g-cs" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".28" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/>
+      <linearGradient id="g-velv" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#1e0610" stop-opacity=".7"/><stop offset=".2" stop-color="#1e0610" stop-opacity="0"/>
+        <stop offset=".54" stop-color="#1e0610" stop-opacity="0"/><stop offset=".64" stop-color="#1e0610" stop-opacity=".38"/><stop offset=".74" stop-color="#1e0610" stop-opacity="0"/>
+        <stop offset="1" stop-color="#1e0610" stop-opacity=".35"/>
       </linearGradient>
       <linearGradient id="g-gold" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#f6d98a"/><stop offset=".5" stop-color="#d9a441"/><stop offset="1" stop-color="#a97a22"/>
+        <stop offset="0" stop-color="#ffe9a8"/><stop offset=".45" stop-color="#f4bd3a"/><stop offset="1" stop-color="#a86f12"/>
       </linearGradient>
+      <linearGradient id="g-goldh" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#b47812"/><stop offset=".4" stop-color="#ffe39a"/><stop offset=".62" stop-color="#f2b632"/><stop offset="1" stop-color="#9a650f"/>
+      </linearGradient>
+      <radialGradient id="g-knob" cx=".38" cy=".32" r=".7">
+        <stop offset="0" stop-color="#fff3c8"/><stop offset=".45" stop-color="#f4bd3a"/><stop offset="1" stop-color="#8f5c0e"/>
+      </radialGradient>
+      <radialGradient id="g-bulb" cx=".4" cy=".35" r=".65">
+        <stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#fff2bf"/><stop offset=".8" stop-color="#ffc72c"/><stop offset="1" stop-color="#d98e0b"/>
+      </radialGradient>
+      <radialGradient id="g-halo" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#ffd76a" stop-opacity=".95"/><stop offset=".5" stop-color="#ffc72c" stop-opacity=".35"/><stop offset="1" stop-color="#ffc72c" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-panel" cx=".5" cy=".55" r=".7">
+        <stop offset="0" stop-color="#fffdf6"/><stop offset=".75" stop-color="#fff4dc"/><stop offset="1" stop-color="#ffe7b8"/>
+      </radialGradient>
       <linearGradient id="g-photo" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#b9a58f"/><stop offset="1" stop-color="#6a5a4b"/>
+        <stop offset="0" stop-color="#c8ccd4"/><stop offset="1" stop-color="#6c7383"/>
       </linearGradient>
+      <filter id="f-soft" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur stdDeviation="2.4"/></filter>
+      <filter id="f-softer" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur stdDeviation="1.3"/></filter>
+      <clipPath id="c-drape"><path d="M-2-2H152C150 40 132 92 96 140C72 172 52 190 46 204C40 220 60 262 110 322H-2Z"/></clipPath>
 
-      <symbol id="sym-curtain" viewBox="0 0 390 74">
-        <path transform="translate(0 5)" fill="#6e1f1f" opacity=".4" d="M0 8H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
-        <path fill="url(#g-cv)" d="M0 6H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
-        <path fill="url(#g-cs)" d="M0 6H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
-        <path fill="none" stroke="#4d1411" stroke-opacity=".35" stroke-width="1.4" d="M48.75 9v35M97.5 9v35M146.25 9v35M195 9v35M243.75 9v35M292.5 9v35M341.25 9v35"/>
-        <rect width="390" height="9" fill="url(#g-gold)"/>
-        <rect y="1.5" width="390" height="1.4" fill="#fff6d0" opacity=".6"/>
-        <g fill="none" stroke="#c99533" stroke-width="2">
-          <ellipse cx="48.75" cy="9" rx="3" ry="5"/><ellipse cx="97.5" cy="9" rx="3" ry="5"/><ellipse cx="146.25" cy="9" rx="3" ry="5"/><ellipse cx="195" cy="9" rx="3" ry="5"/><ellipse cx="243.75" cy="9" rx="3" ry="5"/><ellipse cx="292.5" cy="9" rx="3" ry="5"/><ellipse cx="341.25" cy="9" rx="3" ry="5"/>
+      <!-- one drape, pulled aside to the left and tied back with a gold rope; the right one is the same, mirrored -->
+      <symbol id="sym-drape" viewBox="0 0 150 320">
+        <path d="M-2-2H152C150 40 132 92 96 140C72 172 52 190 46 204C40 220 60 262 110 322H-2Z" fill="url(#g-vel)"/>
+        <g clip-path="url(#c-drape)">
+          <!-- the folds: soft shadow valleys, then the lit ridges beside them -->
+          <g filter="url(#f-soft)" fill="none" stroke="#3a0814" stroke-opacity=".62" stroke-width="7" stroke-linecap="round">
+            <path d="M14-2C14 70 7.2 150 5 204C2 226 6 268 10 322"/>
+            <path d="M36-2C36 70 21 150 13 204C10 226 20 268 26 322"/>
+            <path d="M60-2C60 70 34 150 21 204C18 226 34 268 44 322"/>
+            <path d="M84-2C84 70 48 150 29 204C26 226 47 268 62 322"/>
+            <path d="M106-2C106 70 61 150 36 204C33 226 60 268 80 322"/>
+            <path d="M127-2C127 70 72 150 42 204C39 226 72 268 97 322"/>
+          </g>
+          <g filter="url(#f-softer)" fill="none" stroke="#ff9478" stroke-opacity=".34" stroke-width="3.2" stroke-linecap="round">
+            <path d="M23-2C23 70 11 150 8 204C6 226 12 268 17 322"/>
+            <path d="M46-2C46 70 26 150 16.5 204C14 226 26 268 34 322"/>
+            <path d="M70-2C70 70 40 150 24.5 204C22 226 40 268 52 322"/>
+            <path d="M94-2C94 70 54 150 32.5 204C30 226 53 268 70 322"/>
+            <path d="M116-2C116 70 67 150 39.5 204C37 226 66 268 88 322"/>
+          </g>
+          <!-- velvet sheen along the inner hem, and the shade under the valance, at the pinch and at the floor -->
+          <path filter="url(#f-soft)" d="M146 0C144 40 128 92 92 140C69 172 50 190 44 204C39 220 58 262 106 322" fill="none" stroke="#ff7a5c" stroke-opacity=".42" stroke-width="6"/>
+          <rect x="-2" y="-2" width="154" height="324" fill="url(#g-velv)"/>
+          <ellipse cx="22" cy="204" rx="34" ry="16" fill="#1e0610" opacity=".35" filter="url(#f-soft)"/>
         </g>
-        <rect x="136" y="17" width="118" height="23" rx="6" fill="url(#g-gold)" stroke="#6e1f1f" stroke-width="1.6"/>
-        <text x="195" y="33.4" text-anchor="middle" font-family="Shrikhand, 'Booth Display Fallback', Georgia, serif" font-size="12.5" letter-spacing=".6" fill="#6e1f1f">POCKET BOOTH</text>
-        <g stroke="#a97a22">
-          <path d="M97.5 44v10M292.5 44v10" stroke-width="2"/>
-          <circle cx="97.5" cy="55.5" r="3.6" fill="url(#g-gold)"/><circle cx="292.5" cy="55.5" r="3.6" fill="url(#g-gold)"/>
-          <path d="M92.8 58.5h9.4l2.2 12h-13.8zM287.8 58.5h9.4l2.2 12h-13.8z" fill="#d9a441" stroke-width=".8"/>
-          <path d="M95.5 61v9M97.5 61v9M99.5 61v9M290.5 61v9M292.5 61v9M294.5 61v9" stroke-width=".7"/>
-        </g>
+        <path d="M152-2C150 40 132 92 96 140C72 172 52 190 46 204C40 220 60 262 110 322" fill="none" stroke="#f0644c" stroke-opacity=".75" stroke-width="1.3"/>
+        <!-- the gold rope tieback with a tassel -->
+        <path d="M-4 197C10 211 34 214 50 202" fill="none" stroke="#5e1020" stroke-opacity=".45" stroke-width="10" stroke-linecap="round" transform="translate(1 3)"/>
+        <path d="M-4 197C10 211 34 214 50 202" fill="none" stroke="#e3a632" stroke-width="8" stroke-linecap="round"/>
+        <path d="M-4 197C10 211 34 214 50 202" fill="none" stroke="#7d500c" stroke-opacity=".75" stroke-width="8" stroke-dasharray="1.6 3.1"/>
+        <path d="M-4 194.6C10 208.6 34 211.6 50 199.6" fill="none" stroke="#fff0b8" stroke-opacity=".85" stroke-width="1.5" stroke-dasharray="3 1.7"/>
+        <path d="M50 206C52 213 49 219 51 226" fill="none" stroke="#c78a22" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="50" cy="202" r="6.4" fill="url(#g-knob)" stroke="#7a4d0c" stroke-width=".8"/>
+        <ellipse cx="51" cy="230" rx="5.6" ry="5" fill="url(#g-knob)"/>
+        <rect x="45" y="233.5" width="12" height="3.4" rx="1.7" fill="#a86f12"/>
+        <path d="M45.4 237C44 247 41 255 39.6 265H62.4C61 255 58 247 56.6 237Z" fill="url(#g-goldh)"/>
+        <path d="M46 241 42.6 264M48.7 241 46.8 264M51 241V264M53.3 241 55.2 264M56 241 59.4 264" stroke="#8a5a0f" stroke-opacity=".7" stroke-width=".7"/>
+        <rect x="39.4" y="263" width="23.2" height="2.6" rx="1.3" fill="#8a5a0f" opacity=".55"/>
       </symbol>
 
       <symbol id="sym-spark" viewBox="0 0 24 24"><path d="M12 1c.8 6.5 4.5 10.2 11 11-6.5.8-10.2 4.5-11 11-.8-6.5-4.5-10.2-11-11 6.5-.8 10.2-4.5 11-11z"/></symbol>
-      <symbol id="sym-pc" viewBox="0 0 16 16"><path d="M0 0H16L0 16Z" fill="#6e1f1f"/><path d="M2 2H10L2 10Z" fill="#a8322d" opacity=".55"/></symbol>
+      <symbol id="sym-pc" viewBox="0 0 16 16"><path d="M0 0H16L0 16Z" fill="#14213d"/><path d="M2 2H10L2 10Z" fill="#fffdf8" opacity=".25"/></symbol>
       <symbol id="sym-face" viewBox="0 0 510 383">
         <rect width="510" height="383" fill="url(#g-photo)"/>
-        <path d="M110 383c0-84 62-130 145-130s145 46 145 130z" fill="#7d5f50"/>
-        <circle cx="255" cy="165" r="64" fill="#e0c3a8"/>
-        <path d="M190 150c4-48 36-66 70-62 34 3 58 26 56 62-20-22-44-30-70-28-24 2-42 12-56 28z" fill="#3a2a21"/>
-        <circle cx="232" cy="172" r="5" fill="#2a1d17"/><circle cx="278" cy="172" r="5" fill="#2a1d17"/>
-        <path d="M232 196q23 20 46 0" fill="none" stroke="#7a3a2e" stroke-width="5" stroke-linecap="round"/>
+        <path d="M110 383c0-84 62-130 145-130s145 46 145 130z" fill="#5d6576"/>
+        <circle cx="255" cy="165" r="64" fill="#e3e5ea"/>
+        <path d="M190 150c4-48 36-66 70-62 34 3 58 26 56 62-20-22-44-30-70-28-24 2-42 12-56 28z" fill="#2a2f3a"/>
+        <circle cx="232" cy="172" r="5" fill="#14213d"/><circle cx="278" cy="172" r="5" fill="#14213d"/>
+        <path d="M232 196q23 20 46 0" fill="none" stroke="#4a5060" stroke-width="5" stroke-linecap="round"/>
       </symbol>
     </defs>
   </svg>
 
-  <!-- the one strip: the picture, photo corners, washi tape, and the develop covers -->
+  <!-- the one strip: the picture, washi tape (done screen), photo corners, and the develop covers -->
   <template id="tpl-strip">
     <canvas class="sc" width="300" height="900" role="img" aria-label="Your photo booth strip"></canvas>
     <span class="tape" aria-hidden="true"></span>
-    <svg class="pc pc1" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
-    <svg class="pc pc2" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
-    <svg class="pc pc3" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
-    <svg class="pc pc4" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
     <div class="dv" aria-hidden="true"><i class="df f1"></i><i class="df f2"></i><i class="df f3"></i><i class="df f4"></i><i class="df df-b"></i></div>
   </template>
 
@@ -93,119 +130,122 @@
 
     <!-- 1. Landing (Step 1) -->
     <section id="screen-landing" class="screen landing is-active" aria-label="Pocket Booth">
-      <div class="poster">
-        <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
-        <main class="poster-main">
-          <h1 class="headline" tabindex="-1">A <em>photo booth</em> in your pocket.</h1>
-          <p class="sub">Four shots. One strip. Print it for the price of a page.</p>
-          <svg class="garland" viewBox="0 0 390 84" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><path d="M0 6 Q97.5 66 195 6  Q292.5 66 390 6 " fill="none" stroke="#2a1d17" stroke-width="2" stroke-linecap="round"/><g transform="translate(32.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#f2b8c0" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(65.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(97.5 36.0)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#e2a72e" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(130.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#2c6e6a" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(162.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(227.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#2c6e6a" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(260.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(292.5 36.0)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#e2a72e" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(325.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#f2b8c0" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(357.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g></svg>
-
-          <div class="zone" id="zone">
-            <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
-            <div class="zone-l">
-              <div class="sign-wrap">
-                <div class="sign">
-                  <div data-ring="8,3"></div>
-                  <p class="sign-a">PHOTOS</p>
-                  <p class="sign-b">FOUR<br>POSES</p>
-                  <p class="sign-c">PRINT IT FREE</p>
-                </div>
-                <span class="tag tag-free">FREE</span>
-                <span class="tag tag-noacc">NO ACCOUNT</span>
-              </div>
-              <div class="coin">
-                <svg viewBox="0 0 64 56" aria-hidden="true" focusable="false">
-                  <rect x="22" y="3" width="38" height="50" rx="8" fill="#e9dcc0" stroke="#2a1d17" stroke-width="2.5"/>
-                  <rect x="37" y="14" width="8" height="26" rx="4" fill="#1b1b1b"/>
-                  <rect x="39.5" y="17" width="3" height="20" rx="1.5" fill="#a8322d"/>
-                  <circle cx="13" cy="18" r="10" fill="#e2a72e" stroke="#2a1d17" stroke-width="2.5"/>
-                  <path d="M13 12.5l1.7 3.6 3.9.4-2.9 2.6.8 3.8-3.5-2-3.5 2 .8-3.8-2.9-2.6 3.9-.4z" fill="#2a1d17"/>
-                  <path d="M25 26c3 5 6 9 11 12" fill="none" stroke="#2a1d17" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/>
-                </svg>
-                <p>insert nothing, it&rsquo;s free</p>
-              </div>
-            </div>
-            <div class="zone-r">
-              <div class="clip">
-                <div class="strip" id="lStrip" data-strip>
-                  <svg class="fb" viewBox="0 0 600 1800" aria-hidden="true" focusable="false">
-                    <rect width="600" height="1800" fill="#f7f5f0"/>
-                    <use href="#sym-face" x="45" y="45" width="510" height="383"/>
-                    <use href="#sym-face" x="45" y="458" width="510" height="383"/>
-                    <use href="#sym-face" x="45" y="871" width="510" height="383"/>
-                    <use href="#sym-face" x="45" y="1284" width="510" height="383"/>
-                    <text x="300" y="1745" text-anchor="middle" font-family="'Courier Prime','Courier New',monospace" font-size="26" font-weight="700" fill="#2a1d17" opacity=".6">THE-POCKET-BOOTH.VERCEL.APP</text>
-                  </svg>
-                </div>
-              </div>
-              <p class="style-tag" id="lStyle" aria-live="off">Classic</p>
-            </div>
-            <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-            <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-          </div>
-
-          <div class="cta">
-            <button id="btnStart" class="btn btn-go btn-xl" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Start the booth</span></button>
-            <button id="btnPhotos" class="btn" type="button"><span data-icon="photos" aria-hidden="true"></span><span class="lbl">Use photos you already have</span></button>
-          </div>
-          <p class="ticket"><span data-icon="lock" aria-hidden="true"></span><span>Free. No account. Your photos never leave your phone.</span></p>
-        </main>
+      <div class="stage" aria-hidden="true">
+        <div class="stage-wall"></div>
+        <svg class="drape drape-l" viewBox="0 0 150 320" preserveAspectRatio="xMinYMax meet" focusable="false"><use href="#sym-drape"/></svg>
+        <svg class="drape drape-r" viewBox="0 0 150 320" preserveAspectRatio="xMinYMax meet" focusable="false"><use href="#sym-drape"/></svg>
+        <svg class="marquee" viewBox="0 0 240 140" focusable="false">
+          <path d="M60-90V36M180-90V36" stroke="#0b1428" stroke-width="4"/>
+          <path d="M60-90V36M180-90V36" stroke="#d9a441" stroke-width="2"/>
+          <path d="M12 64A108 52 0 0 1 228 64V118Q228 128 218 128H22Q12 128 12 118Z" fill="#050a16" opacity=".5" transform="translate(0 6)"/>
+          <path d="M12 64A108 52 0 0 1 228 64V118Q228 128 218 128H22Q12 128 12 118Z" fill="url(#g-gold)" stroke="#0b1428" stroke-width="2"/>
+          <path d="M24 66A96 42 0 0 1 216 66V112Q216 116 212 116H28Q24 116 24 112Z" fill="url(#g-panel)" stroke="#a8281f" stroke-width="1.6"/>
+          <path d="M29 68A91 37 0 0 1 211 68V109Q211 111 209 111H31Q29 111 29 109Z" fill="none" stroke="#d63d2e" stroke-opacity=".35" stroke-width=".8" stroke-dasharray="2 2.4"/>
+          <path id="mq-arc" d="M46 90A74 32 0 0 1 194 90" fill="none"/>
+          <g class="mq-word" font-family="Caprasimo, 'Caprasimo Fallback', Georgia, serif" text-anchor="middle">
+            <text font-size="26" letter-spacing="1.6" fill="#14213d" transform="translate(1.4 1.8)"><textPath href="#mq-arc" startOffset="50%">POCKET</textPath></text>
+            <text font-size="26" letter-spacing="1.6" fill="#d63d2e"><textPath href="#mq-arc" startOffset="50%">POCKET</textPath></text>
+            <text x="121.6" y="108.6" font-size="33" letter-spacing="1.2" fill="#14213d">BOOTH</text>
+            <text x="120" y="106.6" font-size="33" letter-spacing="1.2" fill="#d63d2e">BOOTH</text>
+          </g>
+          <g fill="#14213d"><use href="#sym-spark" x="40" y="92" width="11" height="11"/><use href="#sym-spark" x="189" y="92" width="11" height="11"/></g>
+          <g class="mq-halo" fill="url(#g-halo)"><circle cx="18" cy="65" r="8" style="--i:0"/><circle cx="21.5" cy="52.4" r="8" style="--i:1"/><circle cx="30" cy="42.3" r="8" style="--i:2"/><circle cx="40.5" cy="34.7" r="8" style="--i:3"/><circle cx="52.2" cy="28.9" r="8" style="--i:4"/><circle cx="64.5" cy="24.4" r="8" style="--i:5"/><circle cx="77.1" cy="21.1" r="8" style="--i:6"/><circle cx="89.9" cy="18.8" r="8" style="--i:7"/><circle cx="102.9" cy="17.4" r="8" style="--i:8"/><circle cx="115.9" cy="16.7" r="8" style="--i:9"/><circle cx="128.9" cy="16.9" r="8" style="--i:10"/><circle cx="141.9" cy="17.8" r="8" style="--i:11"/><circle cx="154.8" cy="19.6" r="8" style="--i:12"/><circle cx="167.6" cy="22.4" r="8" style="--i:13"/><circle cx="180" cy="26" r="8" style="--i:14"/><circle cx="192.1" cy="30.9" r="8" style="--i:15"/><circle cx="203.5" cy="37.3" r="8" style="--i:16"/><circle cx="213.4" cy="45.8" r="8" style="--i:17"/><circle cx="220.4" cy="56.8" r="8" style="--i:18"/><circle cx="222" cy="70" r="8" style="--i:19"/><circle cx="222" cy="83" r="8" style="--i:20"/><circle cx="222" cy="96" r="8" style="--i:21"/><circle cx="222" cy="109" r="8" style="--i:22"/><circle cx="216" cy="122" r="8" style="--i:23"/><circle cx="203" cy="122" r="8" style="--i:24"/><circle cx="190" cy="122" r="8" style="--i:25"/><circle cx="177" cy="122" r="8" style="--i:26"/><circle cx="164" cy="122" r="8" style="--i:27"/><circle cx="151" cy="122" r="8" style="--i:28"/><circle cx="138" cy="122" r="8" style="--i:29"/><circle cx="125" cy="122" r="8" style="--i:30"/><circle cx="112" cy="122" r="8" style="--i:31"/><circle cx="99" cy="122" r="8" style="--i:32"/><circle cx="86" cy="122" r="8" style="--i:33"/><circle cx="73" cy="122" r="8" style="--i:34"/><circle cx="60" cy="122" r="8" style="--i:35"/><circle cx="47" cy="122" r="8" style="--i:36"/><circle cx="34" cy="122" r="8" style="--i:37"/><circle cx="24" cy="122" r="8" style="--i:38"/><circle cx="18" cy="109" r="8" style="--i:39"/><circle cx="18" cy="96" r="8" style="--i:40"/><circle cx="18" cy="83" r="8" style="--i:41"/></g>
+          <g class="mq-bulb" fill="url(#g-bulb)" stroke="#9a5f08" stroke-width=".6"><circle cx="18" cy="65" r="3.3"/><circle cx="21.5" cy="52.4" r="3.3"/><circle cx="30" cy="42.3" r="3.3"/><circle cx="40.5" cy="34.7" r="3.3"/><circle cx="52.2" cy="28.9" r="3.3"/><circle cx="64.5" cy="24.4" r="3.3"/><circle cx="77.1" cy="21.1" r="3.3"/><circle cx="89.9" cy="18.8" r="3.3"/><circle cx="102.9" cy="17.4" r="3.3"/><circle cx="115.9" cy="16.7" r="3.3"/><circle cx="128.9" cy="16.9" r="3.3"/><circle cx="141.9" cy="17.8" r="3.3"/><circle cx="154.8" cy="19.6" r="3.3"/><circle cx="167.6" cy="22.4" r="3.3"/><circle cx="180" cy="26" r="3.3"/><circle cx="192.1" cy="30.9" r="3.3"/><circle cx="203.5" cy="37.3" r="3.3"/><circle cx="213.4" cy="45.8" r="3.3"/><circle cx="220.4" cy="56.8" r="3.3"/><circle cx="222" cy="70" r="3.3"/><circle cx="222" cy="83" r="3.3"/><circle cx="222" cy="96" r="3.3"/><circle cx="222" cy="109" r="3.3"/><circle cx="216" cy="122" r="3.3"/><circle cx="203" cy="122" r="3.3"/><circle cx="190" cy="122" r="3.3"/><circle cx="177" cy="122" r="3.3"/><circle cx="164" cy="122" r="3.3"/><circle cx="151" cy="122" r="3.3"/><circle cx="138" cy="122" r="3.3"/><circle cx="125" cy="122" r="3.3"/><circle cx="112" cy="122" r="3.3"/><circle cx="99" cy="122" r="3.3"/><circle cx="86" cy="122" r="3.3"/><circle cx="73" cy="122" r="3.3"/><circle cx="60" cy="122" r="3.3"/><circle cx="47" cy="122" r="3.3"/><circle cx="34" cy="122" r="3.3"/><circle cx="24" cy="122" r="3.3"/><circle cx="18" cy="109" r="3.3"/><circle cx="18" cy="96" r="3.3"/><circle cx="18" cy="83" r="3.3"/></g>
+        </svg>
+        <div class="valance"></div>
       </div>
+
+      <main class="sheet poster">
+        <h1 class="headline" tabindex="-1">A <em>photo booth</em> in your&nbsp;pocket.</h1>
+        <p class="sub"><span>Four shots. One strip.</span> <span>Print it for the price of a page.</span></p>
+
+        <div class="zone" id="zone">
+          <div class="burst" aria-hidden="true"></div>
+          <div class="slot" aria-hidden="true"></div>
+          <div class="clip">
+            <div class="strip" id="lStrip" data-strip>
+              <svg class="fb" viewBox="0 0 600 1800" aria-hidden="true" focusable="false">
+                <rect width="600" height="1800" fill="#f7f5f0"/>
+                <use href="#sym-face" x="45" y="45" width="510" height="383"/>
+                <use href="#sym-face" x="45" y="458" width="510" height="383"/>
+                <use href="#sym-face" x="45" y="871" width="510" height="383"/>
+                <use href="#sym-face" x="45" y="1284" width="510" height="383"/>
+                <text x="300" y="1745" text-anchor="middle" font-family="Jost, 'Jost Fallback', 'Century Gothic', sans-serif" font-size="26" font-weight="600" letter-spacing="3" fill="#14213d" opacity=".6">THE-POCKET-BOOTH.VERCEL.APP</text>
+              </svg>
+            </div>
+          </div>
+          <p class="ticket-tag" aria-live="off"><span>Style</span><b id="lStyle">Classic</b></p>
+        </div>
+
+        <div class="cta">
+          <button id="btnStart" class="btn btn-go btn-xl" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Start the booth</span></button>
+          <button id="btnPhotos" class="btn btn-xl" type="button"><span data-icon="photos" aria-hidden="true"></span><span class="lbl">Use photos you already have</span></button>
+        </div>
+        <p class="trust"><span data-icon="lock" aria-hidden="true"></span><span>Free. No account. Your photos never leave your phone.</span></p>
+      </main>
       <div data-footer></div>
     </section>
 
     <!-- 2. The booth (Step 2A) -->
-    <section id="screen-booth" class="screen booth has-bar st-asking" aria-label="The booth">
-      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+    <section id="screen-booth" class="screen booth dark has-bar st-asking" aria-label="The booth">
+      <div class="valance slim" aria-hidden="true"></div>
       <header class="top">
         <button id="btnBoothBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
         <h1 class="top-title" tabindex="-1">Squeeze in.</h1>
         <button id="btnFlip" class="icon-btn" type="button" aria-label="Flip the camera"><span data-icon="flip" aria-hidden="true"></span></button>
       </header>
-      <div class="window mirror" id="window">
-        <div data-ring="12,8"></div>
-        <div class="view">
-          <video id="video" playsinline muted autoplay></video>
-          <div class="explain" id="explain">
-            <span class="explain-ico" data-icon="lock" aria-hidden="true"></span>
-            <p id="explainText">Your camera stays on your phone. Nothing is recorded or sent.</p>
-          </div>
-          <div class="dare" id="dare" hidden><span id="dareText"></span></div>
-          <div class="count" id="count" aria-hidden="true"><span id="countNum"></span></div>
-          <div class="mini" id="mini" aria-hidden="true">
-            <canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas>
+      <div class="booth-main">
+        <p class="booth-sign" aria-hidden="true"><span>Photos</span></p>
+        <div class="window mirror" id="window">
+          <div data-ring="12,9"></div>
+          <div class="view">
+            <video id="video" playsinline muted autoplay></video>
+            <div class="explain" id="explain">
+              <span class="explain-ico" data-icon="lock" aria-hidden="true"></span>
+              <p id="explainText">Your camera stays on your phone. Nothing is recorded or sent.</p>
+            </div>
+            <div class="dare" id="dare" hidden><span id="dareText"></span></div>
+            <div class="count" id="count" aria-hidden="true"><span id="countNum"></span></div>
+            <div class="mini" id="mini" aria-hidden="true">
+              <canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas>
+            </div>
           </div>
         </div>
+        <div class="shots" role="status" aria-live="polite">
+          <span class="lamps" id="lamps" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span id="shotText">Shot 1 of 4</span>
+        </div>
+        <p class="hint">Prop your phone up, or hold it out.</p>
+        <div class="toggles">
+          <button id="tgPose" class="switch" type="button" role="switch" aria-checked="false"><span class="sw-t">Pose ideas</span><span class="sw" aria-hidden="true"><i></i></span></button>
+          <button id="tgSound" class="switch" type="button" role="switch" aria-checked="true"><span class="sw-t">Sound</span><span class="sw" aria-hidden="true"><i></i></span></button>
+        </div>
       </div>
-      <div class="shots" role="status" aria-live="polite">
-        <span class="lamps" id="lamps" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span id="shotText">Shot 1 of 4</span>
-      </div>
-      <p class="hint">Prop your phone up, or hold it out.</p>
-      <div class="toggles">
-        <button id="tgPose" class="switch" type="button" role="switch" aria-checked="false"><span class="sw-t">Pose ideas</span><span class="sw" aria-hidden="true"><i></i></span></button>
-        <button id="tgSound" class="switch" type="button" role="switch" aria-checked="true"><span class="sw-t">Sound</span><span class="sw" aria-hidden="true"><i></i></span></button>
-      </div>
-      <div class="floor" aria-hidden="true"></div>
       <div class="bar"><div class="bar-in">
-        <button id="btnShoot" class="btn btn-go btn-xl grow" type="button" disabled><span class="lbl">Start</span></button>
+        <button id="btnShoot" class="btn btn-go btn-xl grow" type="button" disabled><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Start</span></button>
         <button id="btnStop" class="btn btn-xl grow" type="button" hidden><span class="lbl">Stop</span></button>
       </div></div>
     </section>
 
     <!-- 3. Camera help (Step 2A, when the camera can't open) -->
     <section id="screen-camera-help" class="screen help has-bar" aria-label="The camera did not open">
+      <div class="valance slim" aria-hidden="true"></div>
       <header class="top">
         <button id="btnHelpBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
         <span class="top-spacer" aria-hidden="true"></span>
       </header>
       <main class="help-main">
-        <svg class="help-art" viewBox="0 0 120 84" aria-hidden="true" focusable="false">
-          <rect x="14" y="20" width="92" height="56" rx="12" fill="#faf3df" stroke="#2a1d17" stroke-width="3.5"/>
-          <path d="M40 20l6-11h28l6 11" fill="#e2a72e" stroke="#2a1d17" stroke-width="3.5" stroke-linejoin="round"/>
-          <circle cx="60" cy="48" r="17" fill="#2c6e6a" stroke="#2a1d17" stroke-width="3.5"/>
-          <path d="M52 44q3-3 6 0M64 44q3-3 6 0M53 55q7 5 14 0" fill="none" stroke="#faf3df" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="94" cy="32" r="4" fill="#a8322d"/>
+        <svg class="help-art" viewBox="0 0 132 96" aria-hidden="true" focusable="false">
+          <ellipse cx="66" cy="88" rx="44" ry="5" fill="#14213d" opacity=".1"/>
+          <path d="M46 24l6-12h28l6 12" fill="#ffc72c" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="14" y="22" width="104" height="62" rx="16" fill="#d63d2e" stroke="#14213d" stroke-width="3"/>
+          <rect x="14" y="40" width="104" height="26" fill="#a8281f"/>
+          <rect x="14" y="22" width="104" height="62" rx="16" fill="none" stroke="#14213d" stroke-width="3"/>
+          <circle cx="66" cy="53" r="22" fill="#fffdf8" stroke="#14213d" stroke-width="3"/>
+          <circle cx="66" cy="53" r="14" fill="#14213d"/>
+          <circle cx="60" cy="47" r="4.5" fill="#bfe3f0"/>
+          <rect x="94" y="29" width="14" height="7" rx="3.5" fill="#fffdf8" stroke="#14213d" stroke-width="2.2"/>
+          <path d="M104 10l2.4 4.6 5 .6-3.7 3.4 1 5-4.7-2.5-4.6 2.5.9-5-3.6-3.4 5-.6z" fill="#ffc72c" stroke="#14213d" stroke-width="1.6" stroke-linejoin="round"/>
         </svg>
         <h1 class="help-title" id="helpTitle" tabindex="-1">No camera found.</h1>
         <p class="help-detail" id="helpDetail"></p>
@@ -239,42 +279,44 @@
         </div>
       </main>
       <div class="bar"><div class="bar-in">
-        <button id="btnCamTake" class="btn btn-go btn-xl grow" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Take four photos one at a time</span></button>
+        <button id="btnCamTake" class="btn btn-go btn-xl grow" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Take 4 photos one at a time</span></button>
       </div></div>
     </section>
 
     <!-- 4. Pick (Step 2B): "Pick N more" -->
     <section id="screen-pick" class="screen pick has-bar" aria-label="Pick your photos">
+      <div class="valance slim" aria-hidden="true"></div>
       <header class="top">
         <button id="btnPickBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
         <span class="top-spacer" aria-hidden="true"></span>
       </header>
       <main class="pick-main">
-        <h1 class="pick-title" id="pickTitle" tabindex="-1">Pick four photos</h1>
+        <h1 class="pick-title" id="pickTitle" tabindex="-1">Pick 4 photos</h1>
         <p class="pick-note" id="pickNote">Four photos make one strip. They&rsquo;ll go in the order you pick them.</p>
         <div class="slots" id="pickSlots"></div>
       </main>
-      <div class="floor" aria-hidden="true"></div>
       <div class="bar"><div class="bar-in col">
         <button id="btnPickAdd" class="btn btn-go btn-xl" type="button"><span data-icon="plus" aria-hidden="true"></span><span class="lbl">Add photos</span></button>
-        <button id="btnPickReset" class="btn btn-sm" type="button"><span class="lbl">Start over</span></button>
+        <button id="btnPickReset" class="btn btn-text" type="button"><span class="lbl">Start over</span></button>
       </div></div>
     </section>
 
     <!-- 5. Frame editor (Step 2B) -->
     <section id="screen-edit" class="screen edit has-bar" aria-label="Adjust a photo">
+      <div class="valance slim" aria-hidden="true"></div>
       <header class="top">
         <button id="btnEditBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Strip</span></button>
-        <h1 class="top-title" id="editTitle" tabindex="-1">Frame one of four</h1>
+        <h1 class="top-title" id="editTitle" tabindex="-1">Frame 1 of 4</h1>
         <span class="top-spacer" aria-hidden="true"></span>
       </header>
-      <div class="window window-edit">
-        <div class="view view-edit"><canvas id="editCanvas" role="img" aria-label="The photo in its frame. Drag to move it, pinch to zoom."></canvas></div>
+      <div class="edit-main">
+        <div class="window window-edit">
+          <div class="view view-edit"><canvas id="editCanvas" role="img" aria-label="The photo in its frame. Drag to move it, pinch to zoom."></canvas></div>
+        </div>
+        <p class="hint">Drag to move. Pinch to zoom.</p>
+        <label class="zoomrow"><span>Zoom</span><input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
+        <div class="frames" id="frameRow" role="group" aria-label="Pick a frame"></div>
       </div>
-      <p class="hint">Drag to move. Pinch to zoom.</p>
-      <label class="zoomrow"><span>Zoom</span><input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
-      <div class="frames" id="frameRow" role="group" aria-label="Pick a frame"></div>
-      <div class="floor" aria-hidden="true"></div>
       <div class="bar"><div class="bar-in col">
         <div class="row3 only-photos">
           <button id="btnUp" class="btn btn-sm" type="button"><span data-icon="up" aria-hidden="true"></span><span class="lbl">Move up</span></button>
@@ -287,48 +329,50 @@
 
     <!-- 6. Result (Steps 3 and 4) -->
     <section id="screen-result" class="screen result has-bar" aria-label="Your strip">
-      <header class="top">
-        <button id="btnNew" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>New strip</span></button>
-        <h1 class="top-title" tabindex="-1">Your strip</h1>
-        <span class="top-spacer" aria-hidden="true"></span>
-      </header>
-
-      <div class="table" id="rTable">
-        <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
-        <div class="clip"><div class="strip" id="rStrip" data-strip></div></div>
-        <div class="stamp-date" aria-hidden="true"><span>DEVELOPED</span><b id="stampDate">08 OCT 2026</b></div>
-        <p class="note-hand" id="noteHand">tap a photo to adjust it
-          <svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M36 3c-10 0-22 4-30 17M6 20l1-9M6 20l9-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </p>
-        <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-        <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-        <svg class="spk spk-c" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-      </div>
-
-      <div class="panel">
-        <div class="grp">
-          <h2 class="lbl">Style</h2>
-          <div class="chips" id="styleRow" role="group" aria-label="Style"></div>
-        </div>
-        <div class="grp">
-          <div class="lbl-row"><h2 class="lbl">Strip colour</h2><span class="lbl-val" id="paperName">Style&rsquo;s own</span></div>
-          <div class="dots" id="paperRow" role="group" aria-label="Strip colour"></div>
-        </div>
-        <div class="grp grp-last">
-          <label class="field" for="caption"><span class="lbl">Caption <small>(if you like)</small></span>
-            <span class="field-box"><input id="caption" type="text" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" placeholder="Riya&rsquo;s room"><small id="capCount" aria-hidden="true">0/24</small></span>
-          </label>
-          <button id="dateToggle" class="switch switch-wide" type="button" role="switch" aria-checked="true"><span class="sw-t">Date on the strip <small id="dateText">08 OCT 2026</small></span><span class="sw" aria-hidden="true"><i></i></span></button>
+      <div class="dark-top">
+        <div class="valance slim" aria-hidden="true"></div>
+        <header class="top">
+          <button id="btnNew" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>New strip</span></button>
+          <h1 class="top-title" tabindex="-1">Your strip</h1>
+          <span class="top-spacer" aria-hidden="true"></span>
+        </header>
+        <div class="table" id="rTable">
+          <div class="slot" aria-hidden="true"></div>
+          <div class="clip"><div class="strip" id="rStrip" data-strip></div></div>
+          <p class="note-hand" id="noteHand">tap a photo to adjust it
+            <svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M36 3c-10 0-22 4-30 17M6 20l1-9M6 20l9-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </p>
         </div>
       </div>
 
-      <div class="outs">
-        <button id="btnPrint" class="btn" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print four strips (PDF)</span></button>
-        <p class="tip">Print at Actual size (100%), on photo paper if you can.</p>
-        <button id="btnStory" class="btn" type="button"><span data-icon="story" aria-hidden="true"></span><span class="lbl">Story size</span></button>
-        <div class="row2">
-          <button id="btnEdit" class="btn btn-sm" type="button"><span data-icon="crop" aria-hidden="true"></span><span class="lbl">Edit photos</span></button>
-          <button id="btnRetake" class="btn btn-sm" type="button"><span data-icon="retake" aria-hidden="true"></span><span class="lbl">Retake</span></button>
+      <div class="sheet">
+        <div class="panel">
+          <div class="grp">
+            <div class="lbl-row"><h2 class="plbl">Style</h2></div>
+            <div class="chips" id="styleRow" role="group" aria-label="Style"></div>
+          </div>
+          <div class="grp">
+            <div class="lbl-row"><h2 class="plbl">Strip colour</h2><span class="lbl-val" id="paperName">Style&rsquo;s own</span></div>
+            <div class="dots" id="paperRow" role="group" aria-label="Strip colour"></div>
+          </div>
+          <div class="grp">
+            <label class="field" for="caption"><span class="lbl-row"><span class="plbl">Caption</span><span class="lbl-val">If you like</span></span>
+              <span class="field-box"><input id="caption" type="text" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" placeholder="Riya&rsquo;s room"><small id="capCount" aria-hidden="true">0/24</small></span>
+            </label>
+          </div>
+          <div class="grp grp-last">
+            <button id="dateToggle" class="switch switch-wide" type="button" role="switch" aria-checked="true"><span class="sw-t">Date on the strip <small id="dateText">08 OCT 2026</small></span><span class="sw" aria-hidden="true"><i></i></span></button>
+          </div>
+        </div>
+
+        <div class="outs">
+          <button id="btnPrint" class="btn btn-xl" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print 4 strips (PDF)</span></button>
+          <p class="tip">Print at Actual size (100%), on photo paper if you can.</p>
+          <div class="row2">
+            <button id="btnStory" class="btn btn-sm" type="button"><span data-icon="story" aria-hidden="true"></span><span class="lbl">Story size</span></button>
+            <button id="btnEdit" class="btn btn-sm" type="button"><span data-icon="crop" aria-hidden="true"></span><span class="lbl">Edit photos</span></button>
+            <button id="btnRetake" class="btn btn-sm" type="button"><span data-icon="retake" aria-hidden="true"></span><span class="lbl">Retake</span></button>
+          </div>
         </div>
       </div>
 
@@ -340,18 +384,17 @@
 
     <!-- 7. Done (Step 5) -->
     <section id="screen-done" class="screen done has-bar" aria-label="Done">
-      <div class="table table-sm" id="dTable">
-        <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
-        <div class="clip"><div class="strip" id="dStrip" data-strip></div></div>
-        <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-        <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
-        <svg class="spk spk-c" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+      <div class="dark-top">
+        <div class="valance slim" aria-hidden="true"></div>
+        <div class="table table-sm" id="dTable">
+          <div class="clip"><div class="strip" id="dStrip" data-strip></div></div>
+        </div>
       </div>
-      <main class="done-main">
+      <main class="sheet done-main">
         <h1 class="done-title" id="doneTitle" tabindex="-1">Saved.</h1>
         <p class="done-nudge" id="doneNudge" role="status">Send it to everyone in the strip.</p>
         <div class="done-links">
-          <button id="btnPrint2" class="btn btn-sm" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print four strips</span></button>
+          <button id="btnPrint2" class="btn btn-sm" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print 4 strips</span></button>
           <button id="btnAnother" class="btn btn-sm" type="button"><span data-icon="crop" aria-hidden="true"></span><span class="lbl">Try another style</span></button>
           <button id="btnNewStrip" class="btn btn-sm" type="button"><span data-icon="plus" aria-hidden="true"></span><span class="lbl">New strip</span></button>
         </div>
@@ -364,41 +407,38 @@
 
     <!-- 8. Errors: one friendly message, one button -->
     <section id="screen-error" class="screen error has-bar" aria-label="Something went wrong">
-      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+      <div class="valance slim" aria-hidden="true"></div>
       <main class="err-main">
-        <div class="err-card">
-          <div class="sign-wrap err-sign">
-            <div class="sign">
-              <div data-ring="7,3"></div>
-              <p class="sign-a">SORRY</p>
-              <p class="sign-b" id="errSign">OUT OF ORDER</p>
-              <p class="sign-c">BACK IN A MOMENT</p>
-            </div>
-            <span class="tag tag-free">OOPS</span>
+        <div class="hang" aria-hidden="true">
+          <div class="hang-card">
+            <p class="hang-a">Sorry</p>
+            <p class="hang-b" id="errSign">OUT OF ORDER</p>
+            <p class="hang-c">Back in a moment</p>
           </div>
-          <h1 class="err-title" id="errTitle" tabindex="-1">Hmm, that didn&rsquo;t work.</h1>
-          <p class="err-detail" id="errDetail" role="alert"></p>
         </div>
+        <h1 class="err-title" id="errTitle" tabindex="-1">Hmm, that didn&rsquo;t work.</h1>
+        <p class="err-detail" id="errDetail" role="alert"></p>
       </main>
       <div class="bar"><div class="bar-in col">
         <button id="errBtn" class="btn btn-go btn-xl" type="button"><span class="lbl">Start over</span></button>
-        <button id="errBtn2" class="btn btn-sm" type="button" hidden><span class="lbl">Take four photos one at a time</span></button>
+        <button id="errBtn2" class="btn btn-xl" type="button" hidden><span class="lbl">Take 4 photos one at a time</span></button>
       </div></div>
     </section>
 
     <!-- The engine did not load -->
     <section id="screen-broken" class="screen error" aria-label="Pocket Booth did not load">
-      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+      <div class="valance slim" aria-hidden="true"></div>
       <main class="err-main">
-        <div class="err-card">
-          <svg class="err-art" viewBox="0 0 72 120" aria-hidden="true" focusable="false">
-            <rect x="6" y="4" width="60" height="112" rx="4" fill="#faf3df" stroke="#2a1d17" stroke-width="3.5" transform="rotate(4 36 60)"/>
-            <g transform="rotate(4 36 60)" fill="#d8c8a4" stroke="#2a1d17" stroke-width="2.5"><rect x="14" y="12" width="44" height="22"/><rect x="14" y="40" width="44" height="22"/><rect x="14" y="68" width="44" height="22"/></g>
-          </svg>
-          <h1 class="err-title" tabindex="-1">The booth&rsquo;s still warming up.</h1>
-          <p class="err-detail">Something didn&rsquo;t load. Check your connection and give it another go.</p>
-          <button id="brokenBtn" class="btn btn-go btn-xl" type="button"><span class="lbl">Refresh</span></button>
+        <div class="hang" aria-hidden="true">
+          <div class="hang-card">
+            <p class="hang-a">One moment</p>
+            <p class="hang-b">WARMING UP</p>
+            <p class="hang-c">Check your connection</p>
+          </div>
         </div>
+        <h1 class="err-title" tabindex="-1">The booth&rsquo;s still warming up.</h1>
+        <p class="err-detail">Something didn&rsquo;t load. Check your connection and give it another go.</p>
+        <button id="brokenBtn" class="btn btn-go btn-xl" type="button"><span class="lbl">Refresh</span></button>
       </main>
       <div data-footer></div>
     </section>

@@ -34,7 +34,7 @@ test("Sepia: dark brown to cream, never grey", function () {
   assert(mid[0] - mid[2] > 40, "a real brown in the middle " + mid);
 });
 
-test("Flash night: the centre is lifted and the corners fall away (about +18% to -25%)", function () {
+test("Flash: the centre is lifted and the corners fall away (about +18% to -25%)", function () {
   const img = grey(110); grade("flash", img);
   const centre = luma(px(img, 32, 24)), corner = luma(px(img, 0, 0));
   assert(centre > corner * 1.5, "centre " + centre + " corner " + corner);

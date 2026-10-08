@@ -67,7 +67,7 @@ has("sample.load", "function");
 has("pdf.build", "function");
 
 // the constants match PLAN.md 7.3
-report(same(get("STYLES"), [{ id: "classic", name: "Classic" }, { id: "film", name: "Warm film" }, { id: "flash", name: "Flash night" }, { id: "faded", name: "Faded" }, { id: "fourcut", name: "Four-cut" }, { id: "sepia", name: "Sepia 1950s" }, { id: "disposable", name: "Disposable" }]), "STYLES match PLAN.md");
+report(same(get("STYLES"), [{ id: "classic", name: "Classic" }, { id: "film", name: "Warm film" }, { id: "flash", name: "Flash" }, { id: "faded", name: "Faded" }, { id: "fourcut", name: "Four-cut" }, { id: "sepia", name: "Sepia 1950s" }, { id: "disposable", name: "Disposable" }]), "STYLES match PLAN.md");
 report(same(get("PAPERS"), [{ id: "auto", name: "Style" }, { id: "white", hex: "#f7f5f0" }, { id: "black", hex: "#141414" }, { id: "pink", hex: "#f6d6dc" }, { id: "blue", hex: "#d5e3f2" }]), "PAPERS match PLAN.md");
 report(same(get("DEFAULTS"), { style: "classic", paper: "auto", caption: "", showDate: true, when: 0 }), "DEFAULTS match PLAN.md", JSON.stringify(get("DEFAULTS")));
 report(same(get("STRIP"), { w: 600, h: 1800, dpi: 300, margin: 45, frameW: 510, frameH: 383, gap: 30, bandY: 1667, bandH: 133 }), "STRIP matches PLAN.md", JSON.stringify(get("STRIP")));
@@ -205,7 +205,7 @@ css.replace(/@font-face\s*\{[^}]*?font-family:\s*"([^"]+)";\s*src:\s*([^;]+);/g,
   if (m) faces.push({ family: fam, url: m[1] });
 });
 const realFaces = faces.filter(function (f) { return /\.woff2$/.test(f.url); });
-report(realFaces.length === 4, "styles.css has 4 @font-face rules with a woff2 file", realFaces.map(function (f) { return f.family; }).join(", "));
+report(realFaces.length === 3, "styles.css has 3 @font-face rules with a woff2 file (Caprasimo, Jost, Caveat)", realFaces.map(function (f) { return f.family; }).join(", "));
 report(realFaces.every(function (f) { return /^\.\.\/fonts\//.test(f.url) && fs.existsSync(path.join(ROOT, "src", f.url)); }), "every @font-face url (../fonts/...) points at a real file", realFaces.map(function (f) { return f.url; }).join(", "));
 const pre = [];
 html.replace(/<link rel="preload" href="([^"]+)"/g, function (_, h) { pre.push(h); });
@@ -213,7 +213,7 @@ report(pre.length > 0 && pre.every(function (h) { return fs.existsSync(path.join
 report(realFaces.some(function (f) { return f.family === "Caveat"; }), 'the font family name "Caveat" is registered (the engine asks for 600 "Caveat")');
 const engineText = ["strip", "stamp", "scene"].map(function (n) { return fs.readFileSync(path.join(ROOT, "src", "engine", n + ".js"), "utf8"); }).join("\n");
 report(/"Caveat"/.test(engineText) || /'600 24px "Caveat"'/.test(engineText), 'the engine asks for the family "Caveat"');
-report(["shrikhand-400.woff2", "courier-prime-400.woff2", "courier-prime-700.woff2", "caveat-600.woff2"].every(function (f) { return fs.existsSync(path.join(ROOT, "fonts", f)); }), "fonts/ has Shrikhand, Courier Prime (400, 700) and Caveat");
+report(["caprasimo-400.woff2", "jost-var.woff2", "caveat-600.woff2"].every(function (f) { return fs.existsSync(path.join(ROOT, "fonts", f)); }), "fonts/ has Caprasimo, Jost and Caveat");
 report(fs.readdirSync(path.join(ROOT, "fonts")).filter(function (f) { return /^OFL.*\.txt$/.test(f); }).length >= 3, "fonts/ has the OFL licence texts");
 
 // the sample pictures exist and are light

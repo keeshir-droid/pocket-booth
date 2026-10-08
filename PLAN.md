@@ -232,7 +232,7 @@ Each style is: a grade (pixel maths on each frame), a default strip colour, fram
 |---|---|---|---|---|
 | `classic` (default) | Classic | Black and white (luma 0.299/0.587/0.114), strong S-curve, black point 4%, white point 96%, grain 6%, vignette 15% | White `#f7f5f0` | Square corners. The real 80s booth |
 | `film` | Warm film | Colour; warm highlights (R +6, B −6), lifted blacks (8%), saturation −10%, soft red halation on highlights (10%), grain 5% | Cream `#f1e8d6` | Square corners |
-| `flash` | Flash night | Direct-flash look: centre +18% falling to corners −25% (radial), high contrast, crushed shadows, slightly cool (R −4), saturation +5%, grain 7% | Black `#141414` (stamp in white) | Square corners. The party look |
+| `flash` | Flash | Direct-flash look: centre +18% falling to corners −25% (radial), high contrast, crushed shadows, slightly cool (R −4), saturation +5%, grain 7% | Black `#141414` (stamp in white) | Square corners. The party look |
 | `faded` | Faded | Contrast −30%, black point 15%, cyan shadows and warm-pink highlights, saturation −35% | Yellowed `#efe2bf` | Softly worn: darker paper edges, one faint crease across a frame, slightly rounded worn corners. The strip found in an old wallet |
 | `fourcut` | Four-cut | Bright (+10% exposure), low contrast, soft bloom (blurred copy screened at 20%), a slight pink tint | Pastel pink `#f6d6dc` | Rounded frame corners (18 px). Korean four-cut style; the band reads `POCKET BOOTH` above the date |
 | `sepia` | Sepia 1950s | Luminance mapped through a brown ramp (`#2b1a0e` → `#f3e3c4`), vignette 25%, grain 8% | Cream `#efe6d2` | Small rounded corners (8 px), a few faint scuffs |
@@ -410,7 +410,7 @@ Codes:
 
 ### 7.3 Names
 **Constants**
-- `PB.STYLES = [{ id: "classic", name: "Classic" }, { id: "film", name: "Warm film" }, { id: "flash", name: "Flash night" }, { id: "faded", name: "Faded" }, { id: "fourcut", name: "Four-cut" }, { id: "sepia", name: "Sepia 1950s" }, { id: "disposable", name: "Disposable" }]`
+- `PB.STYLES = [{ id: "classic", name: "Classic" }, { id: "film", name: "Warm film" }, { id: "flash", name: "Flash" }, { id: "faded", name: "Faded" }, { id: "fourcut", name: "Four-cut" }, { id: "sepia", name: "Sepia 1950s" }, { id: "disposable", name: "Disposable" }]`
 - `PB.PAPERS = [{ id: "auto", name: "Style" }, { id: "white", hex: "#f7f5f0" }, { id: "black", hex: "#141414" }, { id: "pink", hex: "#f6d6dc" }, { id: "blue", hex: "#d5e3f2" }]`
 - `PB.DEFAULTS = { style: "classic", paper: "auto", caption: "", showDate: true, when: 0 }`
 - `PB.STRIP = { w: 600, h: 1800, dpi: 300, margin: 45, frameW: 510, frameH: 383, gap: 30, bandY: 1667, bandH: 133 }`

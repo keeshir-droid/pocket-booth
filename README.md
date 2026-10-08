@@ -16,16 +16,16 @@ Photo booth strips are having a moment: young people queue to pay for two printe
 
 1. **Start the booth.** Tap Start: 3, 2, 1, flash, four times. Or **use photos you already have** (pick four).
 2. A strip slides out of the slot and develops. Each photo is auto-framed on the faces and gently matched to the others (levels, white balance, exposure, colour), then given one grain and softness so four different photos feel like one booth session.
-3. Pick one of seven **styles** (Classic, Warm film, Flash night, Faded, Four-cut, Sepia 1950s, Disposable), a strip colour, a caption and a date. The caption and date are printed in a dot-matrix stamp drawn in code.
+3. Pick one of seven **styles** (Classic, Warm film, Flash, Faded, Four-cut, Sepia 1950s, Disposable), a strip colour, a caption and a date. The caption and date are printed in a dot-matrix stamp drawn in code.
 4. **Send** a 4:5 share image, save a story-size image, or **print four strips at true 2×6 in** on one A4 or US Letter page, with cut marks and a 5 cm ruler to check your print scale.
 
-Everything happens on the device. No uploads, no accounts, no libraries, no build step: plain HTML, CSS and JavaScript. The PDF is written by hand. The look (curtain, marquee bulbs, sticker buttons) is all inline SVG and CSS. Fonts are self-hosted: Shrikhand, Courier Prime and Caveat (all SIL OFL, licences in `fonts/`).
+Everything happens on the device. No uploads, no accounts, no libraries, no build step: plain HTML, CSS and JavaScript. The PDF is written by hand. The look is a 1970s photo booth poster: red velvet drapes tied back with gold rope, a swag valance with fringe and tassels, a lit marquee sign, midnight-navy booth interior, butter-yellow buttons. All of it is inline SVG and CSS, no picture files. Fonts are self-hosted: Caprasimo (headings and big buttons), Jost (everything you read) and Caveat (small handwritten notes), all SIL OFL, licences in `fonts/`.
 
 ## What broke / what was hard
 
-- Four mismatched camera-roll photos in colour styles still looked like different worlds after levels, white balance and exposure matching. What fixed most of it was a shared palette step per style (pull odd hues toward the style's colour, cap extreme saturation, split-tone). Classic, Sepia and Faded hide mismatches naturally; Flash night is the least unified, on purpose.
+- Four mismatched camera-roll photos in colour styles still looked like different worlds after levels, white balance and exposure matching. What fixed most of it was a shared palette step per style (pull odd hues toward the style's colour, cap extreme saturation, split-tone). Classic, Sepia and Faded hide mismatches naturally; Flash is the least unified, on purpose.
 - Headless Edge cannot render a true phone width, so phone checks use device emulation.
-- Early drafts used Shrikhand for digits, and its "4" looks odd, so numbers in headings are spelled out.
+- The first look was built without seeing it, and came out crude and cluttered (a heavy display font, a typewriter font for body text, beige everywhere, stickers fighting the strip). It was redrawn screen by screen from screenshots: one big idea per screen, fewer and better decorations, a proper drawn curtain.
 
 ## Limits and next steps
 
@@ -48,7 +48,7 @@ A static site: no build step. Import the repo in Vercel (Framework: Other, no bu
 ## Credits
 
 - Landing sample photos: [cottonbro studio](https://www.pexels.com/@cottonbro) on Pexels (photos 4003765, 4003773, 4003776, 4003803), Pexels License.
-- Fonts: Shrikhand (Jonny Pinhorn), Courier Prime (The Courier Prime Project Authors), Caveat. SIL Open Font License 1.1.
+- Fonts: Caprasimo (The Caprasimo Project Authors), Jost (The Jost Project Authors), Caveat. SIL Open Font License 1.1.
 
 ## Links
 

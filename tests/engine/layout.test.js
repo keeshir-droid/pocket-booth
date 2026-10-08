@@ -7,7 +7,7 @@ test("constants match PLAN.md 7.3", function () {
   assert.deepStrictEqual(PB.STRIP, { w: 600, h: 1800, dpi: 300, margin: 45, frameW: 510, frameH: 383, gap: 30, bandY: 1667, bandH: 133 });
   assert.strictEqual(PB.FRAMES, 4);
   assert.deepStrictEqual(PB.STYLES.map(function (s) { return s.id; }), ["classic", "film", "flash", "faded", "fourcut", "sepia", "disposable"]);
-  assert.deepStrictEqual(PB.STYLES.map(function (s) { return s.name; }), ["Classic", "Warm film", "Flash night", "Faded", "Four-cut", "Sepia 1950s", "Disposable"]);
+  assert.deepStrictEqual(PB.STYLES.map(function (s) { return s.name; }), ["Classic", "Warm film", "Flash", "Faded", "Four-cut", "Sepia 1950s", "Disposable"]);
   assert.deepStrictEqual(PB.PAPERS.map(function (p) { return p.id; }), ["auto", "white", "black", "pink", "blue"]);
   assert.deepStrictEqual(PB.DEFAULTS, { style: "classic", paper: "auto", caption: "", showDate: true, when: 0 });
 });
