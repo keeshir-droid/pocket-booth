@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pocket Booth: a photo booth in your pocket</title>
+  <meta name="description" content="Four shots, a countdown and a flash, and out slides a real photo booth strip. Or turn four photos you already have into one. Print four real-size strips on one page. Free, no account, and your photos never leave your phone.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#a8322d">
+  <meta property="og:title" content="Pocket Booth: a photo booth in your pocket">
+  <meta property="og:description" content="Four shots. One strip. Print it for the price of a page. Free, and your photos never leave your phone.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://the-pocket-booth.vercel.app/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pocket Booth: a photo booth in your pocket">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23a8322d'/%3E%3Crect x='10' y='3' width='12' height='26' rx='1.5' fill='%23f3e9d2' stroke='%232a1d17' stroke-width='1.4'/%3E%3Cg fill='%232a1d17'%3E%3Crect x='12' y='5.5' width='8' height='5.5'/%3E%3Crect x='12' y='12.5' width='8' height='5.5'/%3E%3Crect x='12' y='19.5' width='8' height='5.5'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/shrikhand-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/courier-prime-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="src/styles.css">
+  <!-- Vercel Web Analytics (page views). Same-origin once deployed; a harmless 404 until it is switched on in the Vercel dashboard. -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js" onerror="this.remove()"></script>
+</head>
+<body data-screen="landing">
+  <noscript>
+    <div class="noscript">
+      <h1>Pocket Booth needs JavaScript</h1>
+      <p>Switch it on in your browser settings and give this page a refresh. Then squeeze in.</p>
+    </div>
+  </noscript>
+
+  <!-- Shared drawings: gradients, the curtain, sparkle, photo corner, a sample face. Everything is drawn here, no picture files. -->
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-cv" x1="0" x2="48.75" y1="0" y2="0" gradientUnits="userSpaceOnUse" spreadMethod="repeat">
+        <stop offset="0" stop-color="#7d2420"/><stop offset=".24" stop-color="#b13a33"/><stop offset=".5" stop-color="#c64d42"/><stop offset=".78" stop-color="#a8322d"/><stop offset="1" stop-color="#7d2420"/>
+      </linearGradient>
+      <linearGradient id="g-cs" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".28" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/>
+      </linearGradient>
+      <linearGradient id="g-gold" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#f6d98a"/><stop offset=".5" stop-color="#d9a441"/><stop offset="1" stop-color="#a97a22"/>
+      </linearGradient>
+      <linearGradient id="g-photo" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#b9a58f"/><stop offset="1" stop-color="#6a5a4b"/>
+      </linearGradient>
+
+      <symbol id="sym-curtain" viewBox="0 0 390 74">
+        <path transform="translate(0 5)" fill="#6e1f1f" opacity=".4" d="M0 8H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
+        <path fill="url(#g-cv)" d="M0 6H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
+        <path fill="url(#g-cs)" d="M0 6H390V44a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0a24.375 20 0 0 1-48.75 0Z"/>
+        <path fill="none" stroke="#4d1411" stroke-opacity=".35" stroke-width="1.4" d="M48.75 9v35M97.5 9v35M146.25 9v35M195 9v35M243.75 9v35M292.5 9v35M341.25 9v35"/>
+        <rect width="390" height="9" fill="url(#g-gold)"/>
+        <rect y="1.5" width="390" height="1.4" fill="#fff6d0" opacity=".6"/>
+        <g fill="none" stroke="#c99533" stroke-width="2">
+          <ellipse cx="48.75" cy="9" rx="3" ry="5"/><ellipse cx="97.5" cy="9" rx="3" ry="5"/><ellipse cx="146.25" cy="9" rx="3" ry="5"/><ellipse cx="195" cy="9" rx="3" ry="5"/><ellipse cx="243.75" cy="9" rx="3" ry="5"/><ellipse cx="292.5" cy="9" rx="3" ry="5"/><ellipse cx="341.25" cy="9" rx="3" ry="5"/>
+        </g>
+        <rect x="136" y="17" width="118" height="23" rx="6" fill="url(#g-gold)" stroke="#6e1f1f" stroke-width="1.6"/>
+        <text x="195" y="33.4" text-anchor="middle" font-family="Shrikhand, 'Booth Display Fallback', Georgia, serif" font-size="12.5" letter-spacing=".6" fill="#6e1f1f">POCKET BOOTH</text>
+        <g stroke="#a97a22">
+          <path d="M97.5 44v10M292.5 44v10" stroke-width="2"/>
+          <circle cx="97.5" cy="55.5" r="3.6" fill="url(#g-gold)"/><circle cx="292.5" cy="55.5" r="3.6" fill="url(#g-gold)"/>
+          <path d="M92.8 58.5h9.4l2.2 12h-13.8zM287.8 58.5h9.4l2.2 12h-13.8z" fill="#d9a441" stroke-width=".8"/>
+          <path d="M95.5 61v9M97.5 61v9M99.5 61v9M290.5 61v9M292.5 61v9M294.5 61v9" stroke-width=".7"/>
+        </g>
+      </symbol>
+
+      <symbol id="sym-spark" viewBox="0 0 24 24"><path d="M12 1c.8 6.5 4.5 10.2 11 11-6.5.8-10.2 4.5-11 11-.8-6.5-4.5-10.2-11-11 6.5-.8 10.2-4.5 11-11z"/></symbol>
+      <symbol id="sym-pc" viewBox="0 0 16 16"><path d="M0 0H16L0 16Z" fill="#6e1f1f"/><path d="M2 2H10L2 10Z" fill="#a8322d" opacity=".55"/></symbol>
+      <symbol id="sym-face" viewBox="0 0 510 383">
+        <rect width="510" height="383" fill="url(#g-photo)"/>
+        <path d="M110 383c0-84 62-130 145-130s145 46 145 130z" fill="#7d5f50"/>
+        <circle cx="255" cy="165" r="64" fill="#e0c3a8"/>
+        <path d="M190 150c4-48 36-66 70-62 34 3 58 26 56 62-20-22-44-30-70-28-24 2-42 12-56 28z" fill="#3a2a21"/>
+        <circle cx="232" cy="172" r="5" fill="#2a1d17"/><circle cx="278" cy="172" r="5" fill="#2a1d17"/>
+        <path d="M232 196q23 20 46 0" fill="none" stroke="#7a3a2e" stroke-width="5" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- the one strip: the picture, photo corners, washi tape, and the develop covers -->
+  <template id="tpl-strip">
+    <canvas class="sc" width="300" height="900" role="img" aria-label="Your photo booth strip"></canvas>
+    <span class="tape" aria-hidden="true"></span>
+    <svg class="pc pc1" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
+    <svg class="pc pc2" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
+    <svg class="pc pc3" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
+    <svg class="pc pc4" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="#sym-pc"/></svg>
+    <div class="dv" aria-hidden="true"><i class="df f1"></i><i class="df f2"></i><i class="df f3"></i><i class="df f4"></i><i class="df df-b"></i></div>
+  </template>
+
+  <div id="app">
+
+    <!-- 1. Landing (Step 1) -->
+    <section id="screen-landing" class="screen landing is-active" aria-label="Pocket Booth">
+      <div class="poster">
+        <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+        <main class="poster-main">
+          <h1 class="headline" tabindex="-1">A <em>photo booth</em> in your pocket.</h1>
+          <p class="sub">Four shots. One strip. Print it for the price of a page.</p>
+          <svg class="garland" viewBox="0 0 390 84" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><path d="M0 6 Q97.5 66 195 6  Q292.5 66 390 6 " fill="none" stroke="#2a1d17" stroke-width="2" stroke-linecap="round"/><g transform="translate(32.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#f2b8c0" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(65.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(97.5 36.0)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#e2a72e" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(130.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#2c6e6a" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(162.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(227.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#2c6e6a" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(260.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(292.5 36.0)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#e2a72e" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(325.0 32.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#f2b8c0" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g><g transform="translate(357.5 22.7)"><path d="M-3 0h6l1.4 5h-8.8z" fill="#6e1f1f"/><circle cy="10" r="6.2" fill="#fff1c4" stroke="#2a1d17" stroke-width="1.6"/><circle cx="-2" cy="8" r="1.8" fill="#fff" opacity=".7"/></g></svg>
+
+          <div class="zone" id="zone">
+            <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
+            <div class="zone-l">
+              <div class="sign-wrap">
+                <div class="sign">
+                  <div data-ring="8,3"></div>
+                  <p class="sign-a">PHOTOS</p>
+                  <p class="sign-b">FOUR<br>POSES</p>
+                  <p class="sign-c">PRINT IT FREE</p>
+                </div>
+                <span class="tag tag-free">FREE</span>
+                <span class="tag tag-noacc">NO ACCOUNT</span>
+              </div>
+              <div class="coin">
+                <svg viewBox="0 0 64 56" aria-hidden="true" focusable="false">
+                  <rect x="22" y="3" width="38" height="50" rx="8" fill="#e9dcc0" stroke="#2a1d17" stroke-width="2.5"/>
+                  <rect x="37" y="14" width="8" height="26" rx="4" fill="#1b1b1b"/>
+                  <rect x="39.5" y="17" width="3" height="20" rx="1.5" fill="#a8322d"/>
+                  <circle cx="13" cy="18" r="10" fill="#e2a72e" stroke="#2a1d17" stroke-width="2.5"/>
+                  <path d="M13 12.5l1.7 3.6 3.9.4-2.9 2.6.8 3.8-3.5-2-3.5 2 .8-3.8-2.9-2.6 3.9-.4z" fill="#2a1d17"/>
+                  <path d="M25 26c3 5 6 9 11 12" fill="none" stroke="#2a1d17" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/>
+                </svg>
+                <p>insert nothing, it&rsquo;s free</p>
+              </div>
+            </div>
+            <div class="zone-r">
+              <div class="clip">
+                <div class="strip" id="lStrip" data-strip>
+                  <svg class="fb" viewBox="0 0 600 1800" aria-hidden="true" focusable="false">
+                    <rect width="600" height="1800" fill="#f7f5f0"/>
+                    <use href="#sym-face" x="45" y="45" width="510" height="383"/>
+                    <use href="#sym-face" x="45" y="458" width="510" height="383"/>
+                    <use href="#sym-face" x="45" y="871" width="510" height="383"/>
+                    <use href="#sym-face" x="45" y="1284" width="510" height="383"/>
+                    <text x="300" y="1745" text-anchor="middle" font-family="'Courier Prime','Courier New',monospace" font-size="26" font-weight="700" fill="#2a1d17" opacity=".6">THE-POCKET-BOOTH.VERCEL.APP</text>
+                  </svg>
+                </div>
+              </div>
+              <p class="style-tag" id="lStyle" aria-live="off">Classic</p>
+            </div>
+            <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+            <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+          </div>
+
+          <div class="cta">
+            <button id="btnStart" class="btn btn-go btn-xl" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Start the booth</span></button>
+            <button id="btnPhotos" class="btn" type="button"><span data-icon="photos" aria-hidden="true"></span><span class="lbl">Use photos you already have</span></button>
+          </div>
+          <p class="ticket"><span data-icon="lock" aria-hidden="true"></span><span>Free. No account. Your photos never leave your phone.</span></p>
+        </main>
+      </div>
+      <div data-footer></div>
+    </section>
+
+    <!-- 2. The booth (Step 2A) -->
+    <section id="screen-booth" class="screen booth has-bar st-asking" aria-label="The booth">
+      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+      <header class="top">
+        <button id="btnBoothBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
+        <h1 class="top-title" tabindex="-1">Squeeze in.</h1>
+        <button id="btnFlip" class="icon-btn" type="button" aria-label="Flip the camera"><span data-icon="flip" aria-hidden="true"></span></button>
+      </header>
+      <div class="window mirror" id="window">
+        <div data-ring="12,8"></div>
+        <div class="view">
+          <video id="video" playsinline muted autoplay></video>
+          <div class="explain" id="explain">
+            <span class="explain-ico" data-icon="lock" aria-hidden="true"></span>
+            <p id="explainText">Your camera stays on your phone. Nothing is recorded or sent.</p>
+          </div>
+          <div class="dare" id="dare" hidden><span id="dareText"></span></div>
+          <div class="count" id="count" aria-hidden="true"><span id="countNum"></span></div>
+          <div class="mini" id="mini" aria-hidden="true">
+            <canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas><canvas width="108" height="81"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="shots" role="status" aria-live="polite">
+        <span class="lamps" id="lamps" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span id="shotText">Shot 1 of 4</span>
+      </div>
+      <p class="hint">Prop your phone up, or hold it out.</p>
+      <div class="toggles">
+        <button id="tgPose" class="switch" type="button" role="switch" aria-checked="false"><span class="sw-t">Pose ideas</span><span class="sw" aria-hidden="true"><i></i></span></button>
+        <button id="tgSound" class="switch" type="button" role="switch" aria-checked="true"><span class="sw-t">Sound</span><span class="sw" aria-hidden="true"><i></i></span></button>
+      </div>
+      <div class="floor" aria-hidden="true"></div>
+      <div class="bar"><div class="bar-in">
+        <button id="btnShoot" class="btn btn-go btn-xl grow" type="button" disabled><span class="lbl">Start</span></button>
+        <button id="btnStop" class="btn btn-xl grow" type="button" hidden><span class="lbl">Stop</span></button>
+      </div></div>
+    </section>
+
+    <!-- 3. Camera help (Step 2A, when the camera can't open) -->
+    <section id="screen-camera-help" class="screen help has-bar" aria-label="The camera did not open">
+      <header class="top">
+        <button id="btnHelpBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
+        <span class="top-spacer" aria-hidden="true"></span>
+      </header>
+      <main class="help-main">
+        <svg class="help-art" viewBox="0 0 120 84" aria-hidden="true" focusable="false">
+          <rect x="14" y="20" width="92" height="56" rx="12" fill="#faf3df" stroke="#2a1d17" stroke-width="3.5"/>
+          <path d="M40 20l6-11h28l6 11" fill="#e2a72e" stroke="#2a1d17" stroke-width="3.5" stroke-linejoin="round"/>
+          <circle cx="60" cy="48" r="17" fill="#2c6e6a" stroke="#2a1d17" stroke-width="3.5"/>
+          <path d="M52 44q3-3 6 0M64 44q3-3 6 0M53 55q7 5 14 0" fill="none" stroke="#faf3df" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="94" cy="32" r="4" fill="#a8322d"/>
+        </svg>
+        <h1 class="help-title" id="helpTitle" tabindex="-1">No camera found.</h1>
+        <p class="help-detail" id="helpDetail"></p>
+
+        <div class="card one" id="oneBox">
+          <div class="slots row" id="camSlots"></div>
+          <p class="one-note">Each tap opens your phone&rsquo;s camera. Take the photo, then come back for the next one.</p>
+        </div>
+
+        <div class="card steps" id="steps" hidden>
+          <h2>Open it in your browser</h2>
+          <ol>
+            <li>Tap the <b>&bull;&bull;&bull;</b> or the share icon in the corner.</li>
+            <li>Choose <b>Open in browser</b>, <b>Open in Chrome</b> or <b>Open in Safari</b>.</li>
+            <li>Tap <b>Start the booth</b> again.</li>
+          </ol>
+          <button id="btnCopy" class="btn btn-sm" type="button"><span class="lbl">Copy the link</span></button>
+        </div>
+        <div class="card steps" id="allow" hidden>
+          <h2>Switch the camera back on</h2>
+          <ol>
+            <li>Tap the lock or camera icon next to the web address.</li>
+            <li>Set <b>Camera</b> to <b>Allow</b>.</li>
+            <li>Come back and try again.</li>
+          </ol>
+        </div>
+
+        <div class="help-links">
+          <button id="btnHelpRetry" class="btn btn-sm" type="button"><span data-icon="retake" aria-hidden="true"></span><span class="lbl">Try the camera again</span></button>
+          <button id="btnHelpPhotos" class="btn btn-sm" type="button"><span data-icon="photos" aria-hidden="true"></span><span class="lbl">Use photos I already have</span></button>
+        </div>
+      </main>
+      <div class="bar"><div class="bar-in">
+        <button id="btnCamTake" class="btn btn-go btn-xl grow" type="button"><span data-icon="camera" aria-hidden="true"></span><span class="lbl">Take four photos one at a time</span></button>
+      </div></div>
+    </section>
+
+    <!-- 4. Pick (Step 2B): "Pick N more" -->
+    <section id="screen-pick" class="screen pick has-bar" aria-label="Pick your photos">
+      <header class="top">
+        <button id="btnPickBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Back</span></button>
+        <span class="top-spacer" aria-hidden="true"></span>
+      </header>
+      <main class="pick-main">
+        <h1 class="pick-title" id="pickTitle" tabindex="-1">Pick four photos</h1>
+        <p class="pick-note" id="pickNote">Four photos make one strip. They&rsquo;ll go in the order you pick them.</p>
+        <div class="slots" id="pickSlots"></div>
+      </main>
+      <div class="floor" aria-hidden="true"></div>
+      <div class="bar"><div class="bar-in col">
+        <button id="btnPickAdd" class="btn btn-go btn-xl" type="button"><span data-icon="plus" aria-hidden="true"></span><span class="lbl">Add photos</span></button>
+        <button id="btnPickReset" class="btn btn-sm" type="button"><span class="lbl">Start over</span></button>
+      </div></div>
+    </section>
+
+    <!-- 5. Frame editor (Step 2B) -->
+    <section id="screen-edit" class="screen edit has-bar" aria-label="Adjust a photo">
+      <header class="top">
+        <button id="btnEditBack" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>Strip</span></button>
+        <h1 class="top-title" id="editTitle" tabindex="-1">Frame one of four</h1>
+        <span class="top-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="window window-edit">
+        <div class="view view-edit"><canvas id="editCanvas" role="img" aria-label="The photo in its frame. Drag to move it, pinch to zoom."></canvas></div>
+      </div>
+      <p class="hint">Drag to move. Pinch to zoom.</p>
+      <label class="zoomrow"><span>Zoom</span><input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
+      <div class="frames" id="frameRow" role="group" aria-label="Pick a frame"></div>
+      <div class="floor" aria-hidden="true"></div>
+      <div class="bar"><div class="bar-in col">
+        <div class="row3 only-photos">
+          <button id="btnUp" class="btn btn-sm" type="button"><span data-icon="up" aria-hidden="true"></span><span class="lbl">Move up</span></button>
+          <button id="btnDown" class="btn btn-sm" type="button"><span data-icon="down" aria-hidden="true"></span><span class="lbl">Move down</span></button>
+          <button id="btnReplace" class="btn btn-sm" type="button"><span data-icon="photos" aria-hidden="true"></span><span class="lbl">Replace</span></button>
+        </div>
+        <button id="btnEditDone" class="btn btn-go btn-xl" type="button"><span data-icon="check" aria-hidden="true"></span><span class="lbl">Done</span></button>
+      </div></div>
+    </section>
+
+    <!-- 6. Result (Steps 3 and 4) -->
+    <section id="screen-result" class="screen result has-bar" aria-label="Your strip">
+      <header class="top">
+        <button id="btnNew" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>New strip</span></button>
+        <h1 class="top-title" tabindex="-1">Your strip</h1>
+        <span class="top-spacer" aria-hidden="true"></span>
+      </header>
+
+      <div class="table" id="rTable">
+        <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
+        <div class="clip"><div class="strip" id="rStrip" data-strip></div></div>
+        <div class="stamp-date" aria-hidden="true"><span>DEVELOPED</span><b id="stampDate">08 OCT 2026</b></div>
+        <p class="note-hand" id="noteHand">tap a photo to adjust it
+          <svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M36 3c-10 0-22 4-30 17M6 20l1-9M6 20l9-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </p>
+        <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+        <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+        <svg class="spk spk-c" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+      </div>
+
+      <div class="panel">
+        <div class="grp">
+          <h2 class="lbl">Style</h2>
+          <div class="chips" id="styleRow" role="group" aria-label="Style"></div>
+        </div>
+        <div class="grp">
+          <div class="lbl-row"><h2 class="lbl">Strip colour</h2><span class="lbl-val" id="paperName">Style&rsquo;s own</span></div>
+          <div class="dots" id="paperRow" role="group" aria-label="Strip colour"></div>
+        </div>
+        <div class="grp grp-last">
+          <label class="field" for="caption"><span class="lbl">Caption <small>(if you like)</small></span>
+            <span class="field-box"><input id="caption" type="text" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" placeholder="Riya&rsquo;s room"><small id="capCount" aria-hidden="true">0/24</small></span>
+          </label>
+          <button id="dateToggle" class="switch switch-wide" type="button" role="switch" aria-checked="true"><span class="sw-t">Date on the strip <small id="dateText">08 OCT 2026</small></span><span class="sw" aria-hidden="true"><i></i></span></button>
+        </div>
+      </div>
+
+      <div class="outs">
+        <button id="btnPrint" class="btn" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print four strips (PDF)</span></button>
+        <p class="tip">Print at Actual size (100%), on photo paper if you can.</p>
+        <button id="btnStory" class="btn" type="button"><span data-icon="story" aria-hidden="true"></span><span class="lbl">Story size</span></button>
+        <div class="row2">
+          <button id="btnEdit" class="btn btn-sm" type="button"><span data-icon="crop" aria-hidden="true"></span><span class="lbl">Edit photos</span></button>
+          <button id="btnRetake" class="btn btn-sm" type="button"><span data-icon="retake" aria-hidden="true"></span><span class="lbl">Retake</span></button>
+        </div>
+      </div>
+
+      <div class="bar"><div class="bar-in">
+        <button id="btnSend" class="btn btn-go btn-xl grow" type="button"><span data-icon="share" aria-hidden="true"></span><span class="lbl">Send</span></button>
+        <button id="btnSave" class="btn btn-xl grow" type="button"><span data-icon="download" aria-hidden="true"></span><span class="lbl">Save image</span></button>
+      </div></div>
+    </section>
+
+    <!-- 7. Done (Step 5) -->
+    <section id="screen-done" class="screen done has-bar" aria-label="Done">
+      <div class="table table-sm" id="dTable">
+        <div class="slot" aria-hidden="true"><span class="serial">NO. 06</span></div>
+        <div class="clip"><div class="strip" id="dStrip" data-strip></div></div>
+        <svg class="spk spk-a" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+        <svg class="spk spk-b" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+        <svg class="spk spk-c" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#sym-spark"/></svg>
+      </div>
+      <main class="done-main">
+        <h1 class="done-title" id="doneTitle" tabindex="-1">Saved.</h1>
+        <p class="done-nudge" id="doneNudge" role="status">Send it to everyone in the strip.</p>
+        <div class="done-links">
+          <button id="btnPrint2" class="btn btn-sm" type="button"><span data-icon="print" aria-hidden="true"></span><span class="lbl">Print four strips</span></button>
+          <button id="btnAnother" class="btn btn-sm" type="button"><span data-icon="crop" aria-hidden="true"></span><span class="lbl">Try another style</span></button>
+          <button id="btnNewStrip" class="btn btn-sm" type="button"><span data-icon="plus" aria-hidden="true"></span><span class="lbl">New strip</span></button>
+        </div>
+      </main>
+      <div data-footer></div>
+      <div class="bar"><div class="bar-in">
+        <button id="btnSendAgain" class="btn btn-go btn-xl grow" type="button"><span data-icon="share" aria-hidden="true"></span><span class="lbl">Send again</span></button>
+      </div></div>
+    </section>
+
+    <!-- 8. Errors: one friendly message, one button -->
+    <section id="screen-error" class="screen error has-bar" aria-label="Something went wrong">
+      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+      <main class="err-main">
+        <div class="err-card">
+          <div class="sign-wrap err-sign">
+            <div class="sign">
+              <div data-ring="7,3"></div>
+              <p class="sign-a">SORRY</p>
+              <p class="sign-b" id="errSign">OUT OF ORDER</p>
+              <p class="sign-c">BACK IN A MOMENT</p>
+            </div>
+            <span class="tag tag-free">OOPS</span>
+          </div>
+          <h1 class="err-title" id="errTitle" tabindex="-1">Hmm, that didn&rsquo;t work.</h1>
+          <p class="err-detail" id="errDetail" role="alert"></p>
+        </div>
+      </main>
+      <div class="bar"><div class="bar-in col">
+        <button id="errBtn" class="btn btn-go btn-xl" type="button"><span class="lbl">Start over</span></button>
+        <button id="errBtn2" class="btn btn-sm" type="button" hidden><span class="lbl">Take four photos one at a time</span></button>
+      </div></div>
+    </section>
+
+    <!-- The engine did not load -->
+    <section id="screen-broken" class="screen error" aria-label="Pocket Booth did not load">
+      <div class="curtain"><svg class="curtain-svg" viewBox="0 0 390 74" aria-hidden="true" focusable="false"><use href="#sym-curtain"/></svg></div>
+      <main class="err-main">
+        <div class="err-card">
+          <svg class="err-art" viewBox="0 0 72 120" aria-hidden="true" focusable="false">
+            <rect x="6" y="4" width="60" height="112" rx="4" fill="#faf3df" stroke="#2a1d17" stroke-width="3.5" transform="rotate(4 36 60)"/>
+            <g transform="rotate(4 36 60)" fill="#d8c8a4" stroke="#2a1d17" stroke-width="2.5"><rect x="14" y="12" width="44" height="22"/><rect x="14" y="40" width="44" height="22"/><rect x="14" y="68" width="44" height="22"/></g>
+          </svg>
+          <h1 class="err-title" tabindex="-1">The booth&rsquo;s still warming up.</h1>
+          <p class="err-detail">Something didn&rsquo;t load. Check your connection and give it another go.</p>
+          <button id="brokenBtn" class="btn btn-go btn-xl" type="button"><span class="lbl">Refresh</span></button>
+        </div>
+      </main>
+      <div data-footer></div>
+    </section>
+
+  </div>
+
+  <!-- A single full-size output (address shortcut screen=frame) -->
+  <div id="frameHolder"><canvas id="frameCanvas" width="600" height="1800"></canvas></div>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+  <div class="busy" id="busy" role="status" aria-live="polite"><div class="busy-card"><span class="lamps" aria-hidden="true"><i></i><i></i><i></i><i></i></span><p id="busyText">One moment&hellip;</p></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Photo inputs: the picker, the one-at-a-time camera, and replace -->
+  <input id="fPick" class="vh" type="file" accept="image/*" multiple tabindex="-1" aria-hidden="true">
+  <input id="fCam" class="vh" type="file" accept="image/*" capture="user" tabindex="-1" aria-hidden="true">
+  <input id="fRepl" class="vh" type="file" accept="image/*" tabindex="-1" aria-hidden="true">
+
+  <script defer src="src/engine/util.js"></script>
+  <script defer src="src/engine/decode.js"></script>
+  <script defer src="src/engine/camera.js"></script>
+  <script defer src="src/engine/photo.js"></script>
+  <script defer src="src/engine/styles.js"></script>
+  <script defer src="src/engine/stamp.js"></script>
+  <script defer src="src/engine/strip.js"></script>
+  <script defer src="src/engine/scene.js"></script>
+  <script defer src="src/engine/print.js"></script>
+  <script defer src="src/engine/pdf.js"></script>
+  <script defer src="src/engine/sound.js"></script>
+  <script defer src="src/engine/sample.js"></script>
+  <script defer src="src/engine/export.js"></script>
+  <script defer src="src/engine/share.js"></script>
+  <script defer src="src/app.js"></script>
+</body>
+</html>

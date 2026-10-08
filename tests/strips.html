@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Booth: the strips (M1 test page)</title>
+<!--
+  Never deployed. Engine-builder's M1 test page (PLAN.md 7.4). Serve the project folder (python -m http.server 8000) and open
+  http://localhost:8000/tests/strips.html?set=real
+
+  ?set=real                          every photo in tests/real/ in groups of 4 (file order, wrapping round). Per group:
+                                     the 4 raw crops, the 4 matched crops, the strip in all 7 styles side by side. Plus timings.
+  ?set=sample&style=<id>             the landing sample (assets/sample/1-4.jpg), ONE strip, full size
+  ...&group=2                        only group 2 (1-based)         ...&styles=classic,fourcut   only these styles
+  ...&scale=0.5                      strip scale in the 7-up row (default 0.5; the single strip default is 1)
+  ...&view=strips|band|scene|sheet   strips (default); band = a close crop of the dot-matrix band at 2x;
+                                     scene = the share image (&format=share|story); sheet = the print sheet (&paper=a4|letter)
+  ...&style=<id>&paper=<id>&caption=...&date=0|1&when=<ms>&seed=<n>      strip settings
+  ...&outputs=1                      also time the share image, story image and print PDF
+  ...&files=a.jpg,b.jpg,...          use these files from tests/real/ instead of the folder listing
+  body[data-ready] is set when everything has drawn ("error" if something failed). window.__stripTimings holds the numbers.
+-->
+<style>
+  @font-face{font-family:"Caveat";font-weight:600;src:url("../fonts/caveat-600.woff2") format("woff2")}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font:13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;background:#d9d4ca;color:#2b2b2b;padding:10px}
+  h2{font:600 15px Georgia,serif;margin:16px 0 4px}
+  h3{font:600 12px system-ui,sans-serif;margin:8px 0 3px;color:#555}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+  .cell{display:flex;flex-direction:column;gap:3px}
+  .cell span{font-size:11px;color:#555}
+  canvas{display:block;background:#888}
+  .err{background:#fde8e8;border:1px solid #d99;padding:8px 10px;border-radius:6px;color:#822;margin:8px 0}
+  pre{margin:4px 0;font:12px/1.4 Consolas,monospace;white-space:pre-wrap}
+  .group{border-top:2px solid #b9b2a4;margin-top:14px;padding-top:4px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="../src/engine/util.js"></script>
+<script src="../src/engine/decode.js"></script>
+<script src="../src/engine/camera.js"></script>
+<script src="../src/engine/photo.js"></script>
+<script src="../src/engine/styles.js"></script>
+<script src="../src/engine/stamp.js"></script>
+<script src="../src/engine/strip.js"></script>
+<script src="../src/engine/scene.js"></script>
+<script src="../src/engine/print.js"></script>
+<script src="../src/engine/pdf.js"></script>
+<script src="../src/engine/sound.js"></script>
+<script src="../src/engine/sample.js"></script>
+<script src="../src/engine/export.js"></script>
+<script src="../src/engine/share.js"></script>
+<script>
+(function () {
+  "use strict";
+  const PB = window.PB, Q = new URLSearchParams(location.search), root = document.getElementById("root");
+  const timings = (window.__stripTimings = { groups: [] });
+
+  function el(tag, attrs, kids) {
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs) { if (k === "text") e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); }
+    (kids || []).forEach(function (c) { e.appendChild(c); });
+    return e;
+  }
+  function log(text) { const p = el("pre", { text: text }); root.appendChild(p); return p; }
+  function fail(e) {
+    console.error(e);
+    root.appendChild(el("div", { "class": "err", text: (e && e.title ? e.title + " " + e.detail + " " : "") + ((e && e.stack) || String(e)) }));
+    document.body.setAttribute("data-ready", "error");
+  }
+  function ms(n) { return n.toFixed(1) + " ms"; }
+  function copyOf(canvas, label) { // show a copy, so the cached canvas can be shown more than once
+    const c = document.createElement("canvas"); c.width = canvas.width; c.height = canvas.height;
+    c.getContext("2d").drawImage(canvas, 0, 0);
+    return el("div", { "class": "cell" }, [c, el("span", { text: label || "" })]);
+  }
+
+  const settings = {
+    style: Q.get("style") || undefined, paper: Q.get("paper") && Q.get("paper") !== "a4" && Q.get("paper") !== "letter" ? Q.get("paper") : undefined,
+    caption: Q.get("caption") || "", showDate: Q.get("date") !== "0", when: Number(Q.get("when")) || 0
+  };
+  if (Q.get("seed")) settings.seed = Number(Q.get("seed"));
+  const sheetPaper = Q.get("paper") === "letter" ? "letter" : "a4";
+  const styleIds = (Q.get("styles") ? Q.get("styles").split(",") : PB.STYLES.map(function (s) { return s.id; })).filter(function (id) { return PB.STYLES.some(function (s) { return s.id === id; }); });
+
+  function loadImage(url) {
+    return new Promise(function (resolve, reject) {
+      const img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error("could not load " + url)); };
+      img.src = url;
+    });
+  }
+  async function loadPhoto(url) { // like the site: long side capped at 2000
+    const img = await loadImage(url), k = Math.min(1, 2000 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    const g = c.getContext("2d"); g.imageSmoothingQuality = "high"; g.drawImage(img, 0, 0, c.width, c.height);
+    return PB.photo.from(c, { live: false });
+  }
+  async function listReal() {
+    if (Q.get("files")) return Q.get("files").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    const r = await fetch("real/");
+    if (!r.ok) return [];
+    const html = await r.text(), out = [], re = /href="([^"?#]+\.(?:jpe?g|png|webp))"/ig;
+    let m; while ((m = re.exec(html))) out.push(decodeURIComponent(m[1].split("/").pop()));
+    return out.sort();
+  }
+
+  function pdfDownloadNote(file) { return file.name + " " + (file.size / 1024).toFixed(0) + " KB"; }
+
+  async function timeOutputs(strip, into) {
+    const lines = [];
+    let t = PB.util.now(); strip.render(1); lines.push("render(1) cold-ish: " + ms(PB.util.now() - t));
+    t = PB.util.now(); const share = await PB.export.shareImage(strip, "share"); lines.push("share image: " + ms(PB.util.now() - t) + "  " + pdfDownloadNote(share));
+    t = PB.util.now(); const story = await PB.export.shareImage(strip, "story"); lines.push("story image: " + ms(PB.util.now() - t) + "  " + pdfDownloadNote(story));
+    t = PB.util.now(); const pdf = await PB.export.printPdf(strip, { paper: sheetPaper }); lines.push("print PDF (" + sheetPaper + "): " + ms(PB.util.now() - t) + "  " + pdfDownloadNote(pdf));
+    into.outputs = lines;
+    return lines.join("\n");
+  }
+
+  async function showOne(strip, label) {
+    const view = Q.get("view") || "strips";
+    root.appendChild(el("h2", { text: label }));
+    if (view === "band") {
+      const full = strip.render(2), band = document.createElement("canvas");
+      band.width = 1200; band.height = 300;
+      band.getContext("2d").drawImage(full, 0, 3300, 1200, 300, 0, 0, 1200, 300);
+      root.appendChild(el("div", { "class": "cell" }, [band, el("span", { text: "the band at 2x (a 600 x 150 px part of the strip, 4x the print size on screen at 1:1)" })]));
+    } else if (view === "scene") {
+      const f = Q.get("format") === "story" ? "story" : "share", size = PB.scene.size(f), c = document.createElement("canvas");
+      c.width = size.w; c.height = size.h;
+      const t = PB.util.now(); PB.scene.draw(c.getContext("2d"), strip, f);
+      root.appendChild(el("div", { "class": "cell" }, [c, el("span", { text: f + " " + size.w + " x " + size.h + ", drawn in " + ms(PB.util.now() - t) })]));
+    } else if (view === "sheet") {
+      const c = document.createElement("canvas"), t = PB.util.now();
+      PB.print.drawPreview(c, strip, sheetPaper);
+      root.appendChild(el("div", { "class": "cell" }, [c, el("span", { text: "the print sheet (" + sheetPaper + ") at 150 dpi, drawn in " + ms(PB.util.now() - t) })]));
+    } else {
+      const scale = Number(Q.get("scale")) || 1, t = PB.util.now(), c = strip.render(scale);
+      root.appendChild(copyOf(c, "scale " + scale + ", " + c.width + " x " + c.height + ", rendered in " + ms(PB.util.now() - t)));
+    }
+  }
+
+  async function runSample() {
+    const sample = await PB.sample.load();
+    const s = Object.assign({}, sample.settings, JSON.parse(JSON.stringify(settings)));
+    Object.keys(s).forEach(function (k) { if (s[k] === undefined) delete s[k]; });
+    const t0 = PB.util.now();
+    const strip = await PB.strip.create(sample.photos, sample.crops, s);
+    timings.create = PB.util.now() - t0;
+    await showOne(strip, "Sample strip, style " + strip.settings.style);
+    if (Q.get("outputs") === "1") log(await timeOutputs(strip, timings));
+    log("create: " + ms(timings.create));
+  }
+
+  async function runReal() {
+    const files = await listReal();
+    if (!files.length) {
+      root.appendChild(el("div", { "class": "err", text: "tests/real/ is empty (or the folder listing is not available). Put 8-10 stock photos of people in tests/real/ and serve the project folder with: python -m http.server 8000. You can also pass ?files=a.jpg,b.jpg." }));
+      document.body.setAttribute("data-ready", "empty");
+      return;
+    }
+    log("Loading " + files.length + " photos from tests/real/: " + files.join(", "));
+    const photos = [];
+    for (const f of files) { try { photos.push(await loadPhoto("real/" + encodeURIComponent(f))); } catch (e) { log("skipped " + f + ": " + e.message); photos.push(null); } }
+    const ok = photos.map(function (p, i) { return p ? i : -1; }).filter(function (i) { return i >= 0; });
+    if (ok.length < 4) { fail(new Error("Need at least 4 readable photos, got " + ok.length)); return; }
+    const groupCount = Math.ceil(ok.length / 4), only = Number(Q.get("group")) || 0;
+    for (let g = 0; g < groupCount; g++) {
+      if (only && only !== g + 1) continue;
+      const idx = [0, 1, 2, 3].map(function (k) { return ok[(g * 4 + k) % ok.length]; });
+      const ph = idx.map(function (i) { return photos[i]; }), names = idx.map(function (i) { return files[i]; });
+      const gt = { group: g + 1, files: names };
+      const wrap = el("div", { "class": "group" }, [el("h2", { text: "Group " + (g + 1) + ": " + names.join("  |  ") })]);
+      root.appendChild(wrap);
+      const crops = ph.map(PB.photo.autoCrop);
+      wrap.appendChild(el("h3", { text: "Raw crops (auto-framed, un-styled)" }));
+      const rawRow = el("div", { "class": "row" }); wrap.appendChild(rawRow);
+      ph.forEach(function (p, i) { const c = document.createElement("canvas"); c.width = 255; c.height = 192; PB.photo.drawCrop(c, p, crops[i]); rawRow.appendChild(el("div", { "class": "cell" }, [c, el("span", { text: names[i] + "  " + p.width + "x" + p.height + "  median " + p.stats().luma.p50.toFixed(2) })])); });
+      wrap.appendChild(el("h3", { text: "Matched crops (levels, white balance, exposure; before any style)" }));
+      const matRow = el("div", { "class": "row" }); wrap.appendChild(matRow);
+      let t = PB.util.now();
+      ph.forEach(function (p, i) { const c = PB.photo.matched(p, crops[i], 255, 192); matRow.appendChild(copyOf(c, "matched")); });
+      gt.matchFourMs = PB.util.now() - t;
+      t = PB.util.now();
+      const strip = await PB.strip.create(ph, crops, Object.assign({}, settings, { style: styleIds[0] }));
+      gt.create = PB.util.now() - t;
+      const scale = Number(Q.get("scale")) || 0.5;
+      wrap.appendChild(el("h3", { text: "The strip in " + styleIds.length + " styles, scale " + scale }));
+      const row = el("div", { "class": "row" }); wrap.appendChild(row);
+      gt.styles = {};
+      for (const id of styleIds) {
+        t = PB.util.now(); await strip.update({ style: id });
+        const t1 = PB.util.now(), c = strip.render(scale), cold = PB.util.now() - t1;
+        const t2 = PB.util.now(); strip.render(scale); const warm = PB.util.now() - t2;
+        gt.styles[id] = { cold: cold, warm: warm };
+        row.appendChild(copyOf(c, id + "  render " + ms(cold) + " (cached " + ms(warm) + ")"));
+      }
+      // the number that matters on a phone: a style change when frames are already matched (the first style's match is cached)
+      const bounce = ["film", "classic", "sepia", "flash"].filter(function (id) { return styleIds.indexOf(id) >= 0; });
+      const times = [];
+      for (const id of bounce) { await strip.update({ style: id }); const tb = PB.util.now(); strip.render(scale); times.push(PB.util.now() - tb); }
+      gt.styleChange = times; timings.groups.push(gt);
+      if (Q.get("outputs") === "1" && g === 0) log(await timeOutputs(strip, gt));
+      wrap.appendChild(el("pre", { text: "create " + ms(gt.create) + ", matching 4 crops at 255x192 " + ms(gt.matchFourMs) + "\nstyle change (cache warm, scale " + scale + "): " + times.map(ms).join(", ") + "\nper style cold/cached: " + Object.keys(gt.styles).map(function (k) { return k + " " + ms(gt.styles[k].cold) + "/" + ms(gt.styles[k].warm); }).join("  ") + (gt.outputs ? "\n" + gt.outputs.join("\n") : "") }));
+      if (Q.get("view") && Q.get("view") !== "strips") { await strip.update({ style: styleIds[0] }); await showOne(strip, "Group " + (g + 1) + ", " + styleIds[0]); }
+    }
+  }
+
+  (async function () {
+    try {
+      if (document.fonts && document.fonts.load) { try { await document.fonts.load('600 20px "Caveat"'); } catch (e) { /* the fallback font is fine */ } }
+      if ((Q.get("set") || "real") === "sample") await runSample(); else await runReal();
+      document.body.setAttribute("data-ready", document.body.getAttribute("data-ready") || "1");
+    } catch (e) { fail(e); }
+  })();
+})();
+</script>
+</body>
+</html>
